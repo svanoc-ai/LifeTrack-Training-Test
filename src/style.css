@@ -174,3 +174,22 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .bottom-nav .nav-icon{width:27px;height:27px;}
 .side-link .nav-icon{width:24px;height:24px;flex:none;}
 @media(max-width:390px){.bottom-nav button{letter-spacing:0}.bottom-nav button small{font-size:9px}.bottom-nav .nav-icon{width:25px;height:25px}}
+
+/* LifeTrack Training 2-C.3.1 — Calendrier compact, mobile first */
+.lt-calendar .lt-week-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin:14px 0}
+.lt-calendar .lt-day-button{min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 1px;background:#172b3a;color:#a7bccb;border:1px solid #375063;border-radius:11px;font-size:12px}
+.lt-calendar .lt-day-button strong{font-size:16px;color:#fff}
+.lt-calendar .lt-day-button[aria-pressed="true"]{background:#203f49;border-color:#36d7c6;color:#36d7c6}
+.lt-calendar .lt-day-button[aria-pressed="true"] strong{color:#36d7c6}
+.lt-calendar .lt-dot{width:7px;height:7px;border-radius:50%;background:#64748b}
+.lt-calendar .lt-dot.strength{background:#36d7c6}.lt-calendar .lt-dot.cardio{background:#65a8ff}.lt-calendar .lt-dot.mixed{background:#f3c477}
+.lt-calendar .lt-selected-day{background:#172b3a;border-radius:14px;padding:14px;margin:12px 0}
+.lt-calendar .lt-selected-day .training-event{margin:10px 0;padding:12px;border:1px solid #375063;border-radius:10px}
+.lt-calendar .lt-calendar-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.lt-calendar .lt-calendar-tools button{min-width:0}
+.lt-calendar .lt-calendar-date{flex:1;text-align:center;min-width:100px;font-size:13px}
+.lt-calendar .lt-calendar-count{font-size:12px;color:#a7bccb}
+.lt-calendar .lt-selected-title{text-transform:capitalize;margin:0 0 10px}
+.lt-calendar .lt-event-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.lt-calendar .lt-event-actions button{font-size:12px}
+.lt-calendar .lt-calendar-note{font-size:12px;color:#a7bccb}
