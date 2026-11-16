@@ -159,3 +159,8 @@ button:disabled{opacity:.55;cursor:not-allowed}
 
 /* 2-C.2.2: independent execution and history views */
 .lt-training-switch{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;background:#0b1420;border:1px solid #375063;border-radius:14px;margin:0 0 18px}.lt-training-switch button{min-height:44px;border:0;border-radius:10px;background:transparent;color:#a7bccb;font:inherit;font-weight:600;cursor:pointer}.lt-training-switch button.active{background:#203646;color:#36d7c6}.lt-training-container>.lt-history{margin-top:0}.lt-training-container>.lt-history .lt-month-bar{top:0}
+
+/* 2-C.2.2 Menu 04 — six independent navigation entries */
+.bottom-nav{grid-template-columns:repeat(6,minmax(0,1fr))}
+.bottom-nav button{min-width:0;font-size:clamp(9px,2.4vw,12px);padding-inline:1px;overflow-wrap:anywhere}
+@media(max-width:390px){.bottom-nav button{letter-spacing:-.25px}}
