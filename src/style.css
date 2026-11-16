@@ -219,3 +219,19 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-wizard-progress{display:flex;gap:4px;margin:12px 0 16px}.lt-wizard-progress span{flex:1;height:5px;background:#375063;border-radius:5px}.lt-wizard-progress span.active{background:#36d7c6}
 .lt-wizard-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin:10px 0}.lt-wizard-days button{padding:10px 0;min-width:0;background:#172b3a;color:#a7bccb;border:1px solid #375063;border-radius:8px}.lt-wizard-days button.selected{background:#203f49;color:#36d7c6;border-color:#36d7c6}
 .lt-wizard-choice{display:flex;align-items:center;gap:8px;margin:12px 0}.lt-wizard-warning{padding:12px;border:1px solid #a98542;border-radius:10px;color:#f3c477}.lt-wizard-warning p{font-size:12px}.lt-wizard-warning label{display:flex;gap:8px;align-items:center}
+
+/* 2-C.3.2.1 — Correctifs iPhone, limites au calendrier et à l'assistant */
+.lt-calendar .lt-calendar-date-jump{display:flex;align-items:end;gap:8px;margin:12px 0;padding:10px;border:1px solid #375063;border-radius:12px;background:#203040;max-width:100%;min-width:0}
+.lt-calendar .lt-calendar-date-jump .field-label{flex:1;min-width:0;margin:0}
+.lt-calendar .lt-calendar-date-jump input[type=date]{display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;font-size:16px;color-scheme:dark}
+.lt-calendar .lt-jump-close{flex-shrink:0;background:#172b3a;border:1px solid #375063;border-radius:9px;color:#a7bccb;padding:12px 9px;font-size:12px}
+.lt-wizard .lt-duration-field{display:grid;gap:10px;margin:15px 0;min-width:0}
+.lt-wizard .lt-duration-stepper{display:grid;grid-template-columns:52px minmax(0,1fr) 52px;align-items:stretch;gap:8px;max-width:100%}
+.lt-wizard .lt-duration-stepper button{border:1px solid #375063;border-radius:12px;background:#203f49;color:#36d7c6;font-size:26px;font-weight:600;min-height:54px;touch-action:manipulation}
+.lt-wizard .lt-duration-stepper button:disabled{opacity:.35;cursor:not-allowed}
+.lt-wizard .lt-duration-stepper output{display:flex;align-items:center;justify-content:center;gap:8px;background:#203040;border:1px solid #375063;border-radius:12px;color:#fff;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.lt-wizard .lt-duration-stepper output small{font-size:12px;font-weight:500;color:#a7bccb}
+.lt-wizard .lt-wizard-primary{background:#36d7c6;color:#0b1420}
+.lt-wizard .lt-wizard-primary:disabled{opacity:.5}
+.lt-wizard .profile-input{font-size:16px;max-width:100%;min-width:0}
+.lt-wizard input[type=date].profile-input{color-scheme:dark}
