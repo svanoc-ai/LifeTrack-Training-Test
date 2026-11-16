@@ -18,3 +18,10 @@ Le workflow `.github/workflows/deploy.yml` exécute désormais `npm test`, puis 
 
 ## Limite
 Le registre npm est inaccessible depuis l'environnement de préparation : la compilation complète React/Vite n'a pas pu être effectuée ici. Le statut reste **candidat à compiler**, et non **livraison validée**.
+
+
+## Correctif CI du 16 novembre 2026
+- ProgressionHistory : accès protégés aux points précédent/suivant pour TypeScript strict.
+- TrainingHistory : suppression de la déclaration inutilisée showTop/setShowTop.
+- 7 tests de régression réussis localement.
+- Compilation intégrale à confirmer dans GitHub Actions (dépendances npm indisponibles localement).
