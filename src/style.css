@@ -164,3 +164,13 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .bottom-nav{grid-template-columns:repeat(6,minmax(0,1fr))}
 .bottom-nav button{min-width:0;font-size:clamp(9px,2.4vw,12px);padding-inline:1px;overflow-wrap:anywhere}
 @media(max-width:390px){.bottom-nav button{letter-spacing:-.25px}}
+
+/* 2-C.2.2 MENU 05 — navigation validée sur iPhone */
+.bottom-nav{grid-template-columns:repeat(6,minmax(0,1fr));background:#0B1420;border-top:1px solid #375063;padding:9px 3px calc(9px + env(safe-area-inset-bottom));}
+.bottom-nav button{color:#A7BCCB;min-width:0;gap:5px;padding:5px 0 4px;min-height:57px;font-weight:500;letter-spacing:0;overflow-wrap:normal;}
+.bottom-nav button small{font-size:clamp(9px,2.5vw,12px);font-weight:600;line-height:1.2;white-space:nowrap;}
+.bottom-nav button.active{color:#36D7C6;}
+.nav-icon{display:block;width:27px;height:27px;flex:none;}
+.bottom-nav .nav-icon{width:27px;height:27px;}
+.side-link .nav-icon{width:24px;height:24px;flex:none;}
+@media(max-width:390px){.bottom-nav button{letter-spacing:0}.bottom-nav button small{font-size:9px}.bottom-nav .nav-icon{width:25px;height:25px}}

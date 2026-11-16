@@ -7,15 +7,26 @@ import PlanningCalendar from './PlanningCalendar';
 import SessionExecution, {type Execution} from './SessionExecution';
 
 type Tab = 'Accueil' | 'Séance' | 'Historique' | 'Programmes' | 'Stats' | 'Plus';
-const tabs: { label: Tab; icon: string }[] = [
-  { label: 'Accueil', icon: '⌂' },
-  { label: 'Séance', icon: '◉' },
-  { label: 'Historique', icon: '◷' },
-  { label: 'Programmes', icon: '▦' },
-  { label: 'Stats', icon: '▥' },
-  { label: 'Plus', icon: '☰' },
+const tabs: { label: Tab; shortLabel: string; icon: string }[] = [
+  { label: 'Accueil', shortLabel: 'Accueil', icon: 'home' },
+  { label: 'Séance', shortLabel: 'Séance', icon: 'dumbbell' },
+  { label: 'Programmes', shortLabel: 'Prog', icon: 'calendar' },
+  { label: 'Historique', shortLabel: 'Historique', icon: 'history' },
+  { label: 'Stats', shortLabel: 'Stats', icon: 'chart' },
+  { label: 'Plus', shortLabel: 'Plus', icon: 'menu' },
 ];
-
+function NavIcon({name}: {name:string}) {
+  const common = {fill:'none',stroke:'currentColor',strokeWidth:2.2,strokeLinecap:'round' as const,strokeLinejoin:'round' as const};
+  const shapes: Record<string,React.ReactNode> = {
+    home:<><path d="M3 10.5 12 3l9 7.5V21h-7v-7h-4v7H3z"/></>,
+    dumbbell:<><rect x="3" y="7" width="3" height="10" rx="1"/><rect x="18" y="7" width="3" height="10" rx="1"/><path d="M6 12h12"/><path d="M9 6v12M15 6v12"/></>,
+    calendar:<><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/><circle cx="8" cy="14" r=".7" fill="currentColor" stroke="none"/><circle cx="12" cy="14" r=".7" fill="currentColor" stroke="none"/><circle cx="16" cy="14" r=".7" fill="currentColor" stroke="none"/><circle cx="8" cy="18" r=".7" fill="currentColor" stroke="none"/><circle cx="12" cy="18" r=".7" fill="currentColor" stroke="none"/></>,
+    history:<><path d="M3 11a9 9 0 1 1 2.2 6"/><path d="M3 4v7h7"/><path d="M12 7v5l4 2"/></>,
+    chart:<><rect x="3" y="14" width="4" height="7" rx="1"/><rect x="10" y="4" width="4" height="17" rx="1"/><rect x="17" y="9" width="4" height="12" rx="1"/></>,
+    menu:<><path d="M4 6h16M4 12h16M4 18h16"/></>
+  };
+  return <svg className="nav-icon" viewBox="0 0 24 24" aria-hidden="true" {...common}>{shapes[name]}</svg>;
+}
 
 // Lot 2-A.2 — Référentiel standard immuable ; personnalisations futures en IndexedDB.
 type ExerciseKind = 'musculation' | 'cardio';
@@ -690,7 +701,7 @@ function App() {
     <div className={`shell theme-${effectiveTheme}`}>
       <aside className="sidebar" aria-label="Navigation principale">
         <div className="brand"><span className="brand-icon">LT</span><span><strong>LifeTrack</strong><small>TRAINING</small></span></div>
-        <nav>{tabs.map(item => <button key={item.label} type="button" className={`side-link ${tab === item.label && !showProfile && !showLibrary ? 'active' : ''}`} onClick={() => navigate(item.label)}><span aria-hidden="true">{item.icon}</span>{item.label}</button>)}</nav>
+        <nav>{tabs.map(item => <button key={item.label} type="button" className={`side-link ${tab === item.label && !showProfile && !showLibrary ? 'active' : ''}`} onClick={() => navigate(item.label)}><NavIcon name={item.icon}/>{item.shortLabel}</button>)}</nav>
         <div className="sidebar-foot">V0.1 · Lot 2-C.2.1<br/>PWA · Hors ligne</div>
       </aside>
       <div className="main-column">
@@ -750,7 +761,7 @@ function App() {
           {!showProfile && !showLibrary && tab === 'Stats' && <section><div className="section-head"><div><p className="kicker">ANALYSES</p><h1>Statistiques</h1><p className="muted">Suivi de la progression et répartition musculaire.</p></div></div><div className="metrics"><div className="metric"><span>Volume</span><strong>42</strong><small>séries · exemple</small></div><div className="metric"><span>Cardio</span><strong>85</strong><small>minutes · exemple</small></div></div><div className="panel"><h2>Progression récente</h2><p className="muted small">Illustration sans données réelles</p><div className="bars" aria-label="Graphique illustratif"><span style={{height:'38%'}}/><span style={{height:'51%'}}/><span style={{height:'47%'}}/><span style={{height:'70%'}}/><span style={{height:'65%'}}/><span style={{height:'83%'}}/><span style={{height:'94%'}}/></div></div><div className="panel"><h2>Analyse musculaire</h2><p className="muted">Carte corporelle interactive, séries directes et secondaires pondérées : intégration prévue dans les lots fonctionnels.</p><div className="disabled-action">Analyse indisponible dans cette démonstration</div></div></section>}
           {!showProfile && !showLibrary && tab === 'Plus' && <section><div className="section-head"><div><p className="kicker">PERSONNALISATION</p><h1>Plus</h1><p className="muted">Bibliothèques, matériel et réglages.</p></div></div><div className="panel menu-panel"><button className="menu-item menu-button" onClick={()=>setShowLibrary(true)}><div><strong>Bibliothèque d’exercices</strong><p className="muted">{STANDARD_EXERCISES.length} exercices préchargés · Création et édition</p></div><span>→</span></button>{[['Matériel','Inventaire et configurations'],['Séances types','Modèles réutilisables']].map(([name, description]) => <div className="menu-item" key={name}><div><strong>{name}</strong><p className="muted">{description}</p></div><span>À venir</span></div>)}<button className="menu-item menu-button" onClick={() => setShowProfile(true)}><div><strong>Profil</strong><p className="muted">Profil local actif</p></div><span>→</span></button></div><div className="panel"><h2>Apparence</h2><div className="theme-choices" role="group" aria-label="Thème de l'application">{(['dark','light','system'] as const).map(value => <button key={value} className={theme === value ? 'selected' : ''} disabled={storageStatus !== 'ready' || saving} onClick={() => saveTheme(value)}>{value === 'dark' ? 'Sombre' : value === 'light' ? 'Clair' : 'Système'}</button>)}</div><p className="muted small">Thème enregistré dans IndexedDB et restauré à la prochaine ouverture.</p></div><div className="panel"><h2>Sauvegarde et restauration</h2><p className="muted small">Sauvegarde JSON locale du profil, du thème et des exercices personnalisés. Aucun transfert vers un serveur. Enregistre une copie du fichier dans Fichiers ou sur un autre support.</p><div className="profile-actions"><button type="button" className="secondary-button" disabled={storageStatus !== 'ready' || saving || backupBusy} onClick={exportBackup}>Exporter JSON</button><button type="button" className="secondary-button" disabled={storageStatus !== 'ready' || saving || backupBusy} onClick={() => backupInputRef.current?.click()}>Restaurer un JSON</button><input ref={backupInputRef} type="file" accept=".json,application/json" style={{display:'none'}} onChange={event => { void importBackup(event.target.files?.[0]); }} aria-label="Choisir un fichier de sauvegarde JSON" /></div><p className="muted small" role="status">{backupBusy ? 'Traitement en cours…' : backupMessage || 'Avant toute restauration, exporte une sauvegarde de l’état actuel.'}</p></div><div className="panel"><h2>À propos</h2><p><strong>LifeTrack Training</strong> · V0.1 — Lot 2-C.2.1</p><p className="muted small">{pwaStatus}</p><button type="button" className="secondary-button" disabled={checkingUpdate} onClick={() => void checkUpdateManually()}>{checkingUpdate ? "Vérification…" : "Rechercher une mise à jour"}</button><p className="muted small">Pour installer sur iPhone : Safari → Partager → Sur l’écran d’accueil. Ouvre une première fois en ligne avant le test hors ligne.</p></div></section>}
         </main>
-        <nav className="bottom-nav" aria-label="Navigation mobile">{tabs.map(item => <button type="button" key={item.label} className={tab === item.label && !showProfile && !showLibrary ? 'active' : ''} onClick={() => navigate(item.label)}><span aria-hidden="true">{item.icon}</span><small>{item.label}</small></button>)}</nav>
+        <nav className="bottom-nav" aria-label="Navigation mobile">{tabs.map(item => <button type="button" key={item.label} className={tab === item.label && !showProfile && !showLibrary ? 'active' : ''} onClick={() => navigate(item.label)}><NavIcon name={item.icon}/><small>{item.shortLabel}</small></button>)}</nav>
       </div>
     </div>
   );
