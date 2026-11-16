@@ -53,7 +53,6 @@ export default function TrainingHistory({history,exercises}:{history:Execution[]
  const [openProgress,setOpenProgress]=useState<number|null>(null);
  const [openPalier,setOpenPalier]=useState<number|null>(null);
  const [confirmationFrom,setConfirmationFrom]=useState<{sessionId:string;exerciseId:string}|null>(null);
- const [showTop,setShowTop]=useState(false);
  const monthEntries=useMemo(()=>history.filter(s=>{const d=dateOf(s);return isValid(d)&&d.getMonth()===month.getMonth()&&d.getFullYear()===month.getFullYear()}).sort((a,b)=>dateOf(b).getTime()-dateOf(a).getTime()||b.updatedAt.localeCompare(a.updatedAt)||b.id.localeCompare(a.id)),[history,month]);
  const visible=useMemo(()=>monthEntries.filter(s=>filter==='Toutes'||kindOf(s,exercises)===filter||(kindOf(s,exercises)==='Mixte'&&(filter==='Musculation'||filter==='Cardio'))),[monthEntries,filter,exercises]);
  const selectedEntry=history.find(s=>s.id===selected);
