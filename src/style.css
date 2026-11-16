@@ -193,3 +193,29 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-calendar .lt-event-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .lt-calendar .lt-event-actions button{font-size:12px}
 .lt-calendar .lt-calendar-note{font-size:12px;color:#a7bccb}
+
+/* Lot 2-C.3.2 — calendrier compact et homogène avec le menu 05 */
+.lt-calendar .lt-cal-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.lt-calendar .lt-cal-header h2{margin:0;font-size:20px}
+.lt-calendar .lt-cal-header p{margin:3px 0 0}
+.lt-calendar .lt-cal-header-actions{display:flex;gap:8px;flex-shrink:0}
+.lt-calendar .lt-icon-button{width:40px;height:40px;padding:0;display:inline-flex;align-items:center;justify-content:center;background:#203040;border:1px solid #375063;color:#a7bccb;border-radius:11px;min-width:0}
+.lt-calendar .lt-icon-button.accent{background:#203f49;color:#36d7c6;border-color:#375063}
+.lt-calendar .lt-calendar-navigation{background:#172b3a;border-radius:14px;padding:12px;margin-bottom:12px}
+.lt-calendar .lt-calendar-tools{display:flex;flex-wrap:nowrap;gap:8px;align-items:center;justify-content:space-between}
+.lt-calendar .lt-calendar-tools .lt-chevron{display:inline-flex;justify-content:center;align-items:center;width:32px;height:36px;min-width:32px;padding:0;background:transparent;border:0;color:#a7bccb}
+.lt-calendar .lt-calendar-date{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1;text-align:center;font-size:13px}
+.lt-calendar .lt-calendar-date strong{color:#fff;font-weight:600}
+.lt-calendar .lt-calendar-date span{color:#a7bccb;font-size:11px}
+.lt-calendar .lt-week-strip{margin:12px 0 8px}
+.lt-calendar .lt-cal-week-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#a7bccb;font-size:12px}
+.lt-calendar .lt-today-action{display:inline-flex;align-items:center;gap:5px;border:0;background:transparent;color:#36d7c6;padding:5px;font-size:12px;white-space:nowrap}
+.lt-calendar .lt-today-action svg{width:17px;height:17px}
+.lt-calendar .lt-selected-day{position:relative;padding:14px 64px 14px 14px;min-height:105px}
+.lt-calendar .lt-selected-day .lt-add-session{position:absolute;right:12px;top:12px}
+.lt-calendar .lt-selected-day .training-event{margin-right:-50px}
+@media(max-width:380px){.lt-calendar .lt-cal-header h2{font-size:18px}.lt-calendar .lt-day-button{font-size:11px}.lt-calendar .lt-calendar-date{font-size:12px}}
+
+.lt-wizard-progress{display:flex;gap:4px;margin:12px 0 16px}.lt-wizard-progress span{flex:1;height:5px;background:#375063;border-radius:5px}.lt-wizard-progress span.active{background:#36d7c6}
+.lt-wizard-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin:10px 0}.lt-wizard-days button{padding:10px 0;min-width:0;background:#172b3a;color:#a7bccb;border:1px solid #375063;border-radius:8px}.lt-wizard-days button.selected{background:#203f49;color:#36d7c6;border-color:#36d7c6}
+.lt-wizard-choice{display:flex;align-items:center;gap:8px;margin:12px 0}.lt-wizard-warning{padding:12px;border:1px solid #a98542;border-radius:10px;color:#f3c477}.lt-wizard-warning p{font-size:12px}.lt-wizard-warning label{display:flex;gap:8px;align-items:center}
