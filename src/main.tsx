@@ -303,6 +303,8 @@ function validExecution(v: unknown): v is Execution {
  [x.activeMs,x.pauseMs].every(n=>Number.isFinite(n)&&n>=0&&n<=864000000) &&
  Array.isArray(x.completedIndexes) && x.completedIndexes.every(i=>Number.isInteger(i)&&i>=0&&i<x.targets.length) &&
  new Set(x.completedIndexes).size===x.completedIndexes.length && typeof x.manualDuration==='boolean' &&
+ (x.exerciseKinds===undefined || (typeof x.exerciseKinds==='object' && x.exerciseKinds!==null && Object.entries(x.exerciseKinds).every(([k,v])=>Number.isInteger(Number(k))&&Number(k)>=0&&Number(k)<x.targets.length&&['musculation','cardio'].includes(v)))) &&
+ (x.cardioResults===undefined || (Array.isArray(x.cardioResults) && x.cardioResults.length<=x.targets.length && x.cardioResults.every(r=>Number.isInteger(r.index)&&r.index>=0&&r.index<x.targets.length&&(['durationMinutes','distanceKm','caloriesKcal','heartRateAvg','heartRateMin','heartRateMax','speedKmh','ascentM','descentM','cadenceRpm','resistance','inclineAvgPct','inclineMaxPct'] as const).every(k=>r[k]===undefined||typeof r[k]==='number'&&Number.isFinite(r[k])&&r[k]>=0&&r[k]<=1000000)) && new Set(x.cardioResults.map(r=>r.index)).size===x.cardioResults.length)) &&
  (x.exerciseResults===undefined || (Array.isArray(x.exerciseResults) && x.exerciseResults.length<=x.targets.length &&
  x.exerciseResults.every(r=>Number.isInteger(r.index)&&r.index>=0&&r.index<x.targets.length&&Array.isArray(r.sets)&&r.sets.length<=30&&
  (r.quality===undefined||['maitrisee','correcte','ameliorer'].includes(r.quality))&&
