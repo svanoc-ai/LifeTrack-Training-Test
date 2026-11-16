@@ -1,6 +1,6 @@
 import ProgressionHistory from './ProgressionHistory';
 import {progressionPoints} from './progression';
-import {useEffect,useMemo,useRef,useState} from 'react';
+import {useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import type {Execution} from './SessionExecution';
 type Kind='Toutes'|'Musculation'|'Cardio'|'Mixte';
 const FILTER_KEY='lifetrack-training-history-filter-v1';
@@ -48,7 +48,7 @@ export default function TrainingHistory({history,exercises}:{history:Execution[]
  const [filter,setFilter]=useState<Kind>(()=>{try{const value=localStorage.getItem(FILTER_KEY);return kinds.includes(value as Kind)?value as Kind:'Toutes'}catch{return 'Toutes'}});
  const [sheet,setSheet]=useState(false),[summaryOpen,setSummaryOpen]=useState(true),[selected,setSelected]=useState<string|null>(null),[openExercise,setOpenExercise]=useState<number|null>(null),[monthPicker,setMonthPicker]=useState(false);
  const [pickerMonth,setPickerMonth]=useState(month.getMonth()),[pickerYear,setPickerYear]=useState(month.getFullYear());
- const listRef=useRef<HTMLDivElement>(null),contentRef=useRef<HTMLDivElement>(null),savedScroll=useRef(0),filterChanged=useRef(false),[highlight,setHighlight]=useState<string|null>(null);
+ const listRef=useRef<HTMLDivElement>(null),contentRef=useRef<HTMLDivElement>(null),savedScroll=useRef(0),restoreScroll=useRef(false),filterChanged=useRef(false),[highlight,setHighlight]=useState<string|null>(null);
  const [openCardio,setOpenCardio]=useState<number|null>(null);
  const [openProgress,setOpenProgress]=useState<number|null>(null);
  const [openPalier,setOpenPalier]=useState<number|null>(null);
@@ -67,10 +67,10 @@ export default function TrainingHistory({history,exercises}:{history:Execution[]
  const group=useMemo(()=>{const groups:{key:string;date:Date;items:Execution[]}[]=[];for(const s of visible){const d=dateOf(s),key=`${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;let g=groups.find(g=>g.key===key);if(!g){g={key,date:d,items:[]};groups.push(g)}g.items.push(s)}return groups},[visible]);
  useEffect(()=>{try{localStorage.setItem(FILTER_KEY,filter)}catch{}},[filter]);
  useEffect(()=>{if(!sheet&&filterChanged.current){filterChanged.current=false;listRef.current?.scrollIntoView({block:'start',behavior:'instant'})}},[sheet]);
- useEffect(()=>{if(!selected)return;window.scrollTo({top:0,behavior:'instant'})},[selected]);
+ useLayoutEffect(()=>{if(selected){window.scrollTo({top:0,behavior:'instant'});return;}if(restoreScroll.current){restoreScroll.current=false;window.scrollTo({top:savedScroll.current,behavior:'instant'});}},[selected]);
  const changeMonth=(offset:number)=>{const next=new Date(month.getFullYear(),month.getMonth()+offset,1);if(next>new Date(new Date().getFullYear(),new Date().getMonth(),1))return;setMonth(next);contentRef.current?.scrollIntoView({block:'start',behavior:'instant'})};
- const back=()=>{const previous=selected;setSelected(null);setOpenExercise(null);setOpenCardio(null);setOpenProgress(null);setOpenPalier(null);setConfirmationFrom(null);requestAnimationFrame(()=>{window.scrollTo({top:savedScroll.current,behavior:'instant'});setHighlight(previous);window.setTimeout(()=>setHighlight(null),1450)})};
- const open=(id:string)=>{savedScroll.current=window.scrollY;setSelected(id);setOpenExercise(null);setOpenCardio(null);setOpenProgress(null);setOpenPalier(null)};
+ const back=()=>{const previous=selected;restoreScroll.current=true;setSelected(null);setOpenExercise(null);setOpenCardio(null);setOpenProgress(null);setOpenPalier(null);setConfirmationFrom(null);requestAnimationFrame(()=>{setHighlight(previous);window.setTimeout(()=>setHighlight(null),1450)})};
+ const open=(id:string)=>{savedScroll.current=window.scrollY;restoreScroll.current=false;setSelected(id);setOpenExercise(null);setOpenCardio(null);setOpenProgress(null);setOpenPalier(null)};
  const openConfirmation=(id:string,exerciseId:string)=>{if(!selected)return;setConfirmationFrom({sessionId:selected,exerciseId});setSelected(id);setOpenExercise(null);setOpenCardio(null);setOpenProgress(null);setOpenPalier(null);window.scrollTo({top:0,behavior:'instant'})};
  const monthOptions=Array.from({length:12},(_,i)=>({value:i,label:new Intl.DateTimeFormat('fr-FR',{month:'long'}).format(new Date(2026,i,1))}));
  const years=Array.from({length:12},(_,i)=>new Date().getFullYear()-i);
