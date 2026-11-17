@@ -285,3 +285,12 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-free-add .training-date-control{height:58px;border:1px solid #375063;border-radius:12px;background:#24323e;display:flex;align-items:center;justify-content:center}
 .lt-free-add .training-date-display{display:flex;align-items:center;justify-content:center;height:100%;font-weight:650;color:#fff;font-size:16px}
 .lt-free-add .training-date-control:focus-within{outline:2px solid #36d7c6;outline-offset:2px}
+/* 2-C.4.1 — Cycles multisemaines */
+.lt-cycle-panel{min-width:0;max-width:100%;box-sizing:border-box;margin:16px 0;padding:12px;border:1px solid #375063;border-radius:12px;background:#132735}
+.lt-cycle-header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.lt-cycle-header h3{margin:0}
+.lt-cycle-item{padding:10px 0;border-top:1px solid #375063;min-width:0}
+.lt-cycle-item strong{overflow-wrap:anywhere}
+.lt-cycle-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.lt-cycle-actions button{background:#203646;color:#d9e9ef;border:1px solid #375063;border-radius:8px;padding:8px 10px;min-height:36px;font-size:13px}
+.lt-cycle-actions button:disabled{opacity:.4}
