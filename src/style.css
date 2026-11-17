@@ -268,3 +268,20 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-free-week-actions{margin:12px 0}
 .lt-free-week-actions .secondary-button{width:100%;margin:0;text-align:center;white-space:normal}
 @media(max-width:390px){.lt-program-card{padding:12px}.lt-program-card-actions button{font-size:12px;gap:5px}.lt-programs-panel .panel-heading h2{font-size:17px}}
+
+/* 2-C.3.3.2 — inline editor, iPhone date and turquoise buttons */
+.lt-program-card,.lt-program-inline-panel,.lt-free-editor,.lt-free-add,.lt-free-add .field-label{min-width:0;max-width:100%;box-sizing:border-box}
+.lt-program-inline-panel{border-top:1px solid #375063;padding-top:12px;overflow:visible}
+.lt-program-inline-panel .template-editor{min-width:0;max-width:100%;padding:0;background:transparent;border:0}
+.lt-program-inline-panel .lt-free-editor{margin:0;padding:12px;background:#172b3a}
+.lt-program-inline-panel .profile-input{min-width:0;max-width:100%;box-sizing:border-box}
+.lt-free-add .training-date-control{position:relative;display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;overflow:hidden}
+.lt-free-add .training-date-display{box-sizing:border-box;max-width:100%;width:100%}
+.lt-free-add .training-date-native{position:absolute;inset:0;width:100%;height:100%;min-width:0;max-width:100%;opacity:0;cursor:pointer;font-size:16px}
+.lt-calendar .training-modal .primary-button.save-button{background:#36d7c6!important;color:#0b1420!important}
+.lt-program-inline-panel .lt-program-save{background:#36d7c6!important;color:#0b1420!important}
+.lt-program-card-actions button[aria-expanded="true"]{outline:2px solid #36d7c6;outline-offset:1px}
+@media(max-width:390px){.lt-program-inline-panel .lt-free-editor{padding:10px}.lt-program-inline-panel .lt-free-week{gap:4px}.lt-program-inline-panel .lt-free-week button{min-width:32px}}
+.lt-free-add .training-date-control{height:58px;border:1px solid #375063;border-radius:12px;background:#24323e;display:flex;align-items:center;justify-content:center}
+.lt-free-add .training-date-display{display:flex;align-items:center;justify-content:center;height:100%;font-weight:650;color:#fff;font-size:16px}
+.lt-free-add .training-date-control:focus-within{outline:2px solid #36d7c6;outline-offset:2px}
