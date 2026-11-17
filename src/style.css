@@ -294,3 +294,12 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-cycle-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .lt-cycle-actions button{background:#203646;color:#d9e9ef;border:1px solid #375063;border-radius:8px;padding:8px 10px;min-height:36px;font-size:13px}
 .lt-cycle-actions button:disabled{opacity:.4}
+
+/* 2-C.4.2 : portée de modification des séances */
+.lt-propagation-panel{box-sizing:border-box;min-width:0;max-width:100%;overflow:hidden;margin:8px 0 14px;padding:12px;background:#172b3a;border:1px solid #36d7c6;border-radius:12px}
+.lt-propagation-panel h4{margin:0 0 12px;color:#eaf5f6}
+.lt-propagation-panel .field-label,.lt-propagation-panel select{min-width:0;max-width:100%;box-sizing:border-box}
+.lt-propagation-check{display:flex;align-items:flex-start;gap:8px;margin:12px 0;font-size:13px;line-height:1.5;color:#d9e9ef}
+.lt-propagation-check input{flex:none;accent-color:#36d7c6;margin-top:3px}
+.lt-propagation-panel .profile-actions{display:flex;flex-wrap:wrap;gap:8px}
+.lt-propagation-panel .profile-actions button{max-width:100%;white-space:normal}
