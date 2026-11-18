@@ -452,3 +452,17 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-effort-ring{width:min(76vw,44dvh,360px);flex:0 1 auto;min-height:0}.lt-effort-ring span{font-size:clamp(2.8rem,13vw,5rem)}
 .lt-timed-controls{display:grid;gap:8px;width:min(100%,420px);flex-shrink:0}.lt-timed-controls button{min-height:44px;width:100%}.lt-timed-controls .primary-button{background:#36D7C6!important;color:#0B1420!important}
 @media(max-height:520px){.lt-timed-screen{gap:4px;padding-top:calc(6px + env(safe-area-inset-top,0px));padding-bottom:calc(6px + env(safe-area-inset-bottom,0px))}.lt-effort-ring{width:min(62vw,34dvh,220px)}.lt-timed-controls{gap:4px}.lt-timed-controls button{min-height:38px;padding:6px}.lt-timed-header h2{font-size:1.35rem}}
+
+/* 2-D.1.5.1 — Choix de la source de séance et commentaires */
+.lt-session-picker{display:grid;gap:14px;min-width:0;margin:14px 0}
+.lt-session-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:5px;background:#172B3A;border-radius:13px}
+.lt-session-tabs button{min-width:0;border:0;border-radius:9px;background:transparent;color:#A7BCCB;padding:12px 7px;font:inherit;font-weight:650}
+.lt-session-tabs button.selected{background:#285C60;color:#fff}
+.lt-session-options{display:grid;gap:8px;max-height:340px;overflow-y:auto;overscroll-behavior:contain}
+.lt-session-option{display:flex;flex-direction:column;align-items:flex-start;gap:5px;text-align:left;min-width:0;width:100%;border:1px solid #375063;border-radius:12px;padding:12px 14px;background:#172B3A;color:#fff;font:inherit}
+.lt-session-option.selected{border-color:#36D7C6;background:#203F49}
+.lt-session-option strong{font-size:1rem;overflow-wrap:anywhere}
+.lt-session-option small{color:#A7BCCB}
+.lt-session-comment{width:100%;max-width:100%;min-width:0;box-sizing:border-box;resize:vertical;line-height:1.45}
+.lt-history-comment{margin-top:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+.lt-history-comment p{margin:7px 0 0}
