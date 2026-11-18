@@ -328,3 +328,13 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-help-progress{margin:12px 0 18px;text-align:right;font-size:12px;color:#A7BCCB}.lt-help-bars{display:flex;gap:5px;margin-top:7px}.lt-help-bars i{height:5px;flex:1;border-radius:10px;background:#375063}.lt-help-bars i.active{background:#36D7C6}
 .lt-help-symbol{display:flex;align-items:center;justify-content:center;width:65px;height:65px;border-radius:15px;background:#203F49;color:#36D7C6;font-size:34px;font-weight:700;margin-bottom:15px}.lt-help-dialog h2{color:#FFFFFF;font-size:22px;line-height:1.25;margin:0 0 12px}.lt-help-dialog>p{font-size:16px;line-height:1.55;color:#E0E9EE;margin:0 0 18px}.lt-help-example{background:#203646;border-radius:12px;padding:14px;margin-bottom:18px}.lt-help-example strong{font-size:11px;color:#36D7C6}.lt-help-example p{color:#FFFFFF;font-size:14px;line-height:1.45;margin:5px 0 0}.lt-help-actions{display:flex;justify-content:space-between;align-items:center;gap:12px}.lt-help-actions button{border-radius:10px;padding:12px 14px;font-size:14px;font-weight:700;min-height:44px}.lt-help-prev{background:#203646;color:#FFFFFF;border:1px solid #375063}.lt-help-next{background:#36D7C6;color:#0B1420;border:1px solid #36D7C6}.lt-help-prev:disabled{opacity:.45}
 @media(max-width:380px){.lt-help-dialog{padding:16px}.lt-help-dialog h2{font-size:20px}}
+
+/* 2-C.4.4.1 — position and icons faithful to the approved help mockup */
+.lt-help-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:nowrap}
+.lt-help-section-heading>h2{flex:1;min-width:0;margin:0}
+.lt-help-heading-actions{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.lt-help-trigger{margin:0;padding:0;width:30px;height:30px;min-width:30px;flex:0 0 30px;border:1px solid #375063;background:#203F49;color:#36D7C6;border-radius:50%;font-size:inherit;line-height:1;box-shadow:none}
+.lt-help-trigger svg{display:block;flex:none}
+.lt-help-symbol{font-size:inherit}
+.lt-help-symbol svg{display:block;width:29px;height:29px}
+@media(max-width:390px){.lt-help-section-heading{gap:6px}.lt-help-heading-actions{gap:7px}.lt-help-heading-actions>.secondary-button{padding-inline:10px}.lt-help-trigger{width:28px;height:28px;min-width:28px;flex-basis:28px}}
