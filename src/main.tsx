@@ -90,7 +90,7 @@ function validExercise(x: unknown): x is Exercise {
 type WorkoutTarget = {
   exerciseId: string; order: number; sets?: number; reps?: number;
   loadKg?: number; restSeconds?: number; rir?: number;
-  durationSeconds?: number; durationMinutes?: number; distanceKm?: number; supersetId?: string;
+  durationSeconds?: number; durationMinutes?: number; distanceKm?: number; supersetId?: string; blockRestBetweenExercisesSeconds?:number;blockRestBetweenRoundsSeconds?:number;
 };
 type WorkoutTemplate = {
   id: string; name: string; description: string; targets: WorkoutTarget[];
@@ -118,7 +118,7 @@ function validTarget(x: unknown): x is WorkoutTarget {
     numberField(t.sets, 100) && numberField(t.reps, 1000) && numberField(t.loadKg, 10000) &&
     numberField(t.restSeconds, 3600) && numberField(t.rir, 20) &&
     (t.durationSeconds===undefined||(Number.isInteger(t.durationSeconds)&&t.durationSeconds>=1&&t.durationSeconds<=3600&&Number.isInteger(t.sets)&&t.sets!>=1&&t.sets!<=30)) && numberField(t.durationMinutes, 1440) && numberField(t.distanceKm, 1000) &&
-    (t.supersetId === undefined || (typeof t.supersetId === 'string' && t.supersetId.length <= 128));
+    (t.supersetId === undefined || (typeof t.supersetId === 'string' && t.supersetId.length <= 128)) && numberField(t.blockRestBetweenExercisesSeconds,3600) && numberField(t.blockRestBetweenRoundsSeconds,3600);
 }
 function validTemplate(x: unknown): x is WorkoutTemplate {
   if (!x || typeof x !== 'object' || Array.isArray(x)) return false;

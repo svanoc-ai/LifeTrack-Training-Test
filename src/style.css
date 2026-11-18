@@ -466,3 +466,11 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-session-comment{width:100%;max-width:100%;min-width:0;box-sizing:border-box;resize:vertical;line-height:1.45}
 .lt-history-comment{margin-top:12px;white-space:pre-wrap;overflow-wrap:anywhere}
 .lt-history-comment p{margin:7px 0 0}
+
+/* 2-D.1.6 — Configuration et repères des blocs */
+.lt-block-settings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:end;margin:12px 0;padding:12px;background:#172B3A;border:1px solid #375063;border-radius:12px;min-width:0}
+.lt-block-settings>.target-field:first-child{grid-column:1/-1}
+.lt-block-hint{grid-column:1/-1;color:#A7BCCB;font-size:.8rem}
+.lt-block-settings input,.lt-block-settings select{min-width:0;max-width:100%;width:100%;box-sizing:border-box}
+.lt-block-progress{text-align:center;font-weight:700;letter-spacing:.08em;color:#36D7C6;padding:8px 0;font-size:.78rem}
+@media(max-width:390px){.lt-block-settings{grid-template-columns:1fr}}
