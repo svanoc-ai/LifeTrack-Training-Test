@@ -84,3 +84,26 @@ test('AUTO-10 : le champ de repos accepte la saisie sans zéro initial',async ({
   await rest.fill('0');
   await expect(rest).toHaveValue('0');
 });
+
+test('AUTO-11 : Hip Thrust 2 × 20 dans une plage 15–25',async ({page})=>{
+  await page.goto('/');
+  const result=await page.evaluate(async()=>{
+    const {recommendProgression}=await import('/src/recommendations.ts');
+    const time='2026-11-18T08:00:00Z';
+    return recommendProgression([{id:'hip1',status:'completed',startedAt:time,updatedAt:time,endedAt:time,targets:[{exerciseId:'hip',order:0,sets:2,reps:20,repMin:15,repMax:25,rir:2,loadKg:30}],exerciseResults:[{index:0,sets:[1,2].map(set=>({set,reps:20,rir:3,loadKg:30,validated:true}))}]}] as never,'hip');
+  });
+  expect(result.kind).toBe('increase-reps');
+  expect(result.detail).toContain('2 × 21');
+});
+
+test('AUTO-12 : plafond personnalisé à 25 nécessite confirmation',async ({page})=>{
+  await page.goto('/');
+  const result=await page.evaluate(async()=>{
+    const {recommendProgression}=await import('/src/recommendations.ts');
+    const history=[1,2].map(i=>({id:`hip${i}`,status:'completed',startedAt:`2026-11-${10+i}T08:00:00Z`,updatedAt:`2026-11-${10+i}T08:00:00Z`,targets:[{exerciseId:'hip',order:0,sets:2,reps:25,repMin:15,repMax:25,rir:2,loadKg:30}],exerciseResults:[{index:0,sets:[1,2].map(set=>({set,reps:25,rir:3,loadKg:30,validated:true}))}]}));
+    return [recommendProgression(history.slice(0,1) as never,'hip'),recommendProgression(history as never,'hip')];
+  });
+  expect(result[0].kind).toBe('repeat');
+  expect(result[1].kind).toBe('increase-load');
+  expect(result[1].detail).toContain('2 × 15');
+});
