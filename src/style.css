@@ -368,3 +368,24 @@ button:disabled{opacity:.55;cursor:not-allowed}
   max-width: 100%;
   text-align: center;
 }
+
+/* 2-D.1.2 — immersive iPhone: one series per view, full usable viewport. */
+.immersive-series-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:700;margin-top:14px}
+.immersive-series-toolbar button{font-size:.85rem}
+@media(max-width:767px){
+ body:has(.execution-fullscreen) .bottom-nav,body:has(.execution-fullscreen) .mobile-bottom-nav{display:none!important}
+ body:has(.execution-fullscreen) .app-bottom-nav{display:none!important}
+ .lt-training-container:has(.execution-fullscreen){position:fixed;inset:0;z-index:80;background:#0B1420;overflow-y:auto;overscroll-behavior:contain;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);box-sizing:border-box}
+ .execution-fullscreen{min-height:100%;width:100%;max-width:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;box-sizing:border-box;padding:16px 16px calc(24px + env(safe-area-inset-bottom,0px))!important;background:#0B1420!important}
+ .execution-fullscreen .immersive-exercise{border:0;padding:12px 0;background:transparent}
+ .execution-fullscreen .immersive-set{min-height:32dvh;display:flex;flex-direction:column;justify-content:center;padding:18px;background:#172B3A;border-color:#375063}
+ .execution-fullscreen .execution-actions{bottom:0;background:#0B1420}
+ .execution-fullscreen .immersive-fields{gap:10px}
+}
+.lt-rest-screen{position:fixed;inset:0;z-index:2000;background:#0B1420;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:20px;padding:calc(20px + env(safe-area-inset-top,0px)) 24px calc(20px + env(safe-area-inset-bottom,0px));box-sizing:border-box;text-align:center}
+.lt-rest-top{color:#A7BCCB;font-size:clamp(.9rem,3.5vw,1.1rem);font-weight:700;letter-spacing:.06em}
+.lt-rest-ring{--rest-progress:100%;width:min(70vw,36dvh,320px);aspect-ratio:1;border-radius:50%;background:conic-gradient(#36D7C6 var(--rest-progress),#375063 0);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;isolation:isolate}
+.lt-rest-ring:before{content:"";position:absolute;inset:12px;border-radius:50%;background:#0B1420;z-index:-1}
+.lt-rest-ring span{font-size:clamp(3rem,13vw,5.5rem);font-weight:800;font-variant-numeric:tabular-nums}
+.lt-rest-ring small{color:#A7BCCB;font-size:.9rem}
+.lt-rest-buttons{display:flex;gap:14px;width:min(100%,420px)}.lt-rest-buttons button{flex:1}.lt-rest-skip{width:min(100%,420px);background:#36D7C6!important;color:#0B1420!important}
