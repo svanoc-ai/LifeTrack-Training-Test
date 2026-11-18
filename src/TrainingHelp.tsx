@@ -1,5 +1,4 @@
 import {useEffect,useState} from 'react';
-import type {ReactNode} from 'react';
 
 type Topic='programs'|'templates'|'cycles'|'scope'|'personalized';
 type Page={title:string;description:string;example:string;symbol:string};
