@@ -474,3 +474,9 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-block-settings input,.lt-block-settings select{min-width:0;max-width:100%;width:100%;box-sizing:border-box}
 .lt-block-progress{text-align:center;font-weight:700;letter-spacing:.08em;color:#36D7C6;padding:8px 0;font-size:.78rem}
 @media(max-width:390px){.lt-block-settings{grid-template-columns:1fr}}
+
+.lt-recommendation{margin:12px 0;padding:12px;border:1px solid #36586a;border-radius:12px;background:#142a37;color:#e8f3f6}.lt-recommendation strong{color:#36d7c6}.lt-recommendation p{margin:7px 0;line-height:1.5}.lt-recommendation small{color:#a7bccb}
+/* 2-D.2.5 : plage de répétitions personnalisée, sans débordement mobile */
+.lt-rep-range{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;min-width:0}
+.lt-rep-range .target-field{min-width:0}
+.lt-rep-range input{max-width:100%;min-width:0}

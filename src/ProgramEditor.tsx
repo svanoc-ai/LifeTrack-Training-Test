@@ -2,7 +2,7 @@ import {TrainingHelp} from './TrainingHelp';
 import {NavIcon} from './TrainingIcons';
 import { Fragment, useEffect, useState } from 'react';
 
-type Target = {exerciseId:string;order:number;sets?:number;reps?:number;loadKg?:number;restSeconds?:number;rir?:number;durationSeconds?:number;durationMinutes?:number;distanceKm?:number;supersetId?:string;blockRestBetweenExercisesSeconds?:number;blockRestBetweenRoundsSeconds?:number};
+type Target = {exerciseId:string;order:number;sets?:number;reps?:number;repMin?:number;repMax?:number;loadKg?:number;restSeconds?:number;rir?:number;durationSeconds?:number;durationMinutes?:number;distanceKm?:number;supersetId?:string;blockRestBetweenExercisesSeconds?:number;blockRestBetweenRoundsSeconds?:number};
 type Template = {id:string;name:string;description?:string;archived:boolean;createdAt?:string;updatedAt?:string;targets:Target[]};
 type Exercise = {id:string;name:string;kind?:'musculation'|'cardio';archived?:boolean};
 type Planned = {id:string;date:string;templateId:string;programId:string|null;status:string;createdAt:string;updatedAt:string;personalized?:boolean};

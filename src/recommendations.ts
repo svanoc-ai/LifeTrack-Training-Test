@@ -21,17 +21,19 @@ export function recommendProgression(history:Execution[],exerciseId:string):Reco
  const min=Math.min(...actual.map(v=>v.reps));
  const rirOk=t.rir===undefined||actual.every(v=>v.rir!==null&&v.rir>=t.rir!);
  const target=Number(t.reps);
- const steps=REP_STEPS.filter(v=>v>=target);
+ const custom=t.repMin!==undefined&&t.repMax!==undefined&&Number.isInteger(t.repMin)&&Number.isInteger(t.repMax)&&t.repMin>=1&&t.repMax>=t.repMin&&t.repMax<=1000;
+ const startStep=custom?t.repMin!:8;
+ const maxStep=custom?t.repMax!:15;
+ const steps=custom?Array.from({length:maxStep-startStep+1},(_,n)=>startStep+n):REP_STEPS.filter(v=>v>=target);
  const next=steps.find(v=>v>target);
- const maxStep=15;
  const kg=actual[0].loadKg;
  if(min<target||!rirOk)return {kind:'repeat',title:'Consolider le palier',detail:`Reprendre ${target} répétitions à ${kg} kg nominaux sur ${count} séries, avec technique maîtrisée et RIR conforme.`,previousSessionId:s.id};
  if(target>=maxStep){
-  const confirmations=matches.filter(x=>x.s.id!==s.id&&x.t.loadKg===kg&&x.t.sets===count).some(x=>{
+  const confirmations=matches.filter(x=>x.s.id!==s.id&&x.t.loadKg===kg&&x.t.sets===count&&(x.t.repMin??undefined)===(t.repMin??undefined)&&(x.t.repMax??undefined)===(t.repMax??undefined)).some(x=>{
    const r=x.s.exerciseResults?.find(v=>v.index===x.i);
    return Array.from({length:count},(_,n)=>n+1).every(n=>{const v=r?.sets.find(z=>z.set===n);return v&&valid(v)&&v.loadKg===kg&&v.reps>=maxStep&&(x.t.rir===undefined||(v.rir!==null&&v.rir>=x.t.rir));});
   });
-  return confirmations?{kind:'increase-load',title:'Augmentation de charge envisageable',detail:`Palier ${count} × ${maxStep} confirmé à ${kg} kg nominaux. Augmenter manuellement la charge, puis revenir à ${count} × 8 (ou ${count} × 6 si le saut est important).`,previousSessionId:s.id}:{kind:'repeat',title:'Confirmer le palier maximal',detail:`${count} × ${maxStep} atteint à ${kg} kg nominaux. Confirmer lors d'une autre séance comparable avant d'augmenter la charge.`,previousSessionId:s.id};
+  return confirmations?{kind:'increase-load',title:'Augmentation de charge envisageable',detail:`Palier ${count} × ${maxStep} confirmé à ${kg} kg nominaux. Augmenter manuellement la charge, puis revenir à ${count} × ${startStep}${custom?'':' (ou '+count+' × 6 si le saut est important)'}.`,previousSessionId:s.id}:{kind:'repeat',title:'Confirmer le palier maximal',detail:`${count} × ${maxStep} atteint à ${kg} kg nominaux. Confirmer lors d'une autre séance comparable avant d'augmenter la charge.`,previousSessionId:s.id};
  }
  return {kind:'increase-reps',title:'Palier suivant proposé',detail:`Passer de ${count} × ${target} à ${count} × ${next??maxStep} à ${kg} kg nominaux, sous réserve d'une technique maîtrisée.`,previousSessionId:s.id};
 }

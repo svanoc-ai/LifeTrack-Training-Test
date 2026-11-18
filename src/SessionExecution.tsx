@@ -3,7 +3,7 @@ import TrainingHistory from './TrainingHistory';
 import {freezeTimed,startTimed,timedElapsed,timedResult,type TimedSet} from './timedSet';
 import {useEffect,useRef,useState} from 'react';
 export type BonusExercise={id:string;name:string;kind:'musculation'|'cardio';muscles:string[];equipment:string[];measurement:'series-repetitions'|'duree-distance';origin:'custom';archived:boolean};
-export type Target={bonus?:boolean;exerciseId:string;order:number;sets?:number;reps?:number;loadKg?:number;restSeconds?:number;rir?:number;durationSeconds?:number;durationMinutes?:number;distanceKm?:number;supersetId?:string;blockRestBetweenExercisesSeconds?:number;blockRestBetweenRoundsSeconds?:number};
+export type Target={bonus?:boolean;exerciseId:string;order:number;sets?:number;reps?:number;repMin?:number;repMax?:number;loadKg?:number;restSeconds?:number;rir?:number;durationSeconds?:number;durationMinutes?:number;distanceKm?:number;supersetId?:string;blockRestBetweenExercisesSeconds?:number;blockRestBetweenRoundsSeconds?:number};
 type Template={id:string;name:string;archived:boolean;targets:Target[]};
 type Planned={id:string;date:string;templateId:string;status:'planned'|'cancelled'|'completed'|'partial'|'abandoned';updatedAt:string};
 export type SetResult={set:number;reps:number;loadKg:number;rir:number|null;durationSeconds?:number;validated?:boolean};
