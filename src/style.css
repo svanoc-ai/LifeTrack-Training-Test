@@ -445,3 +445,10 @@ button:disabled{opacity:.55;cursor:not-allowed}
 
 /* A cardio bonus uses the existing measurement fields; only the measurements can scroll on a compact screen. */
 @media(max-width:767px){.execution-fullscreen .lt-bonus-cardio>.lt-cardio-entry{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain}.execution-fullscreen .lt-bonus-cardio>.execution-target{order:5;flex-shrink:0}.execution-fullscreen .lt-bonus-cardio>.immersive-navigation{order:6}}
+
+/* 2-D.1.5 — timed effort: full viewport, no empty media placeholder. */
+.lt-timed-screen{position:fixed;inset:0;z-index:2050;background:#0B1420;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:clamp(6px,2dvh,18px);box-sizing:border-box;padding:calc(16px + env(safe-area-inset-top,0px)) 20px calc(16px + env(safe-area-inset-bottom,0px));text-align:center;overflow:hidden}
+.lt-timed-header{display:grid;gap:6px;min-width:0;width:100%}.lt-timed-header small{font-weight:700;letter-spacing:.06em;color:#A7BCCB;font-size:.8rem}.lt-timed-header h2{margin:0;font-size:clamp(1.4rem,7vw,2.5rem);line-height:1.15;overflow-wrap:anywhere}.lt-timed-header>span{color:#A7BCCB;font-size:.9rem}
+.lt-effort-ring{width:min(76vw,44dvh,360px);flex:0 1 auto;min-height:0}.lt-effort-ring span{font-size:clamp(2.8rem,13vw,5rem)}
+.lt-timed-controls{display:grid;gap:8px;width:min(100%,420px);flex-shrink:0}.lt-timed-controls button{min-height:44px;width:100%}.lt-timed-controls .primary-button{background:#36D7C6!important;color:#0B1420!important}
+@media(max-height:520px){.lt-timed-screen{gap:4px;padding-top:calc(6px + env(safe-area-inset-top,0px));padding-bottom:calc(6px + env(safe-area-inset-bottom,0px))}.lt-effort-ring{width:min(62vw,34dvh,220px)}.lt-timed-controls{gap:4px}.lt-timed-controls button{min-height:38px;padding:6px}.lt-timed-header h2{font-size:1.35rem}}

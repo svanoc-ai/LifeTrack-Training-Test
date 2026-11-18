@@ -90,7 +90,7 @@ function validExercise(x: unknown): x is Exercise {
 type WorkoutTarget = {
   exerciseId: string; order: number; sets?: number; reps?: number;
   loadKg?: number; restSeconds?: number; rir?: number;
-  durationMinutes?: number; distanceKm?: number; supersetId?: string;
+  durationSeconds?: number; durationMinutes?: number; distanceKm?: number; supersetId?: string;
 };
 type WorkoutTemplate = {
   id: string; name: string; description: string; targets: WorkoutTarget[];
@@ -117,7 +117,7 @@ function validTarget(x: unknown): x is WorkoutTarget {
     Number.isInteger(t.order) && t.order >= 0 && t.order <= 200 &&
     numberField(t.sets, 100) && numberField(t.reps, 1000) && numberField(t.loadKg, 10000) &&
     numberField(t.restSeconds, 3600) && numberField(t.rir, 20) &&
-    numberField(t.durationMinutes, 1440) && numberField(t.distanceKm, 1000) &&
+    (t.durationSeconds===undefined||(Number.isInteger(t.durationSeconds)&&t.durationSeconds>=1&&t.durationSeconds<=3600&&Number.isInteger(t.sets)&&t.sets!>=1&&t.sets!<=30)) && numberField(t.durationMinutes, 1440) && numberField(t.distanceKm, 1000) &&
     (t.supersetId === undefined || (typeof t.supersetId === 'string' && t.supersetId.length <= 128));
 }
 function validTemplate(x: unknown): x is WorkoutTemplate {
@@ -314,6 +314,7 @@ function validExecution(v: unknown): v is Execution {
  validDate(x.startedAt)&&validDate(x.updatedAt)&&validDate(x.lastTick)&&(x.endedAt===null||validDate(x.endedAt)) &&
  ['active','paused','completed','partial','abandoned'].includes(x.status) &&
  [x.activeMs,x.pauseMs].every(n=>Number.isFinite(n)&&n>=0&&n<=864000000) &&
+ (x.timedSet==null||(typeof x.timedSet==='object'&&Number.isInteger(x.timedSet.index)&&x.timedSet.index>=0&&x.timedSet.index<x.targets.length&&Number.isInteger(x.timedSet.set)&&x.timedSet.set>=1&&x.timedSet.set<=30&&Number.isFinite(x.timedSet.elapsedMs)&&x.timedSet.elapsedMs>=0&&(x.timedSet.startedAt===null||validDate(x.timedSet.startedAt)))) &&
  Array.isArray(x.completedIndexes) && x.completedIndexes.every(i=>Number.isInteger(i)&&i>=0&&i<x.targets.length) &&
  new Set(x.completedIndexes).size===x.completedIndexes.length && typeof x.manualDuration==='boolean' &&
  (x.exerciseKinds===undefined || (typeof x.exerciseKinds==='object' && x.exerciseKinds!==null && Object.entries(x.exerciseKinds).every(([k,v])=>Number.isInteger(Number(k))&&Number(k)>=0&&Number(k)<x.targets.length&&['musculation','cardio'].includes(v)))) &&
@@ -321,7 +322,7 @@ function validExecution(v: unknown): v is Execution {
  (x.exerciseResults===undefined || (Array.isArray(x.exerciseResults) && x.exerciseResults.length<=x.targets.length &&
  x.exerciseResults.every(r=>Number.isInteger(r.index)&&r.index>=0&&r.index<x.targets.length&&Array.isArray(r.sets)&&r.sets.length<=30&&
  (r.quality===undefined||['maitrisee','correcte','ameliorer'].includes(r.quality))&&
- r.sets.every(t=>Number.isInteger(t.set)&&t.set>=1&&t.set<=30&&Number.isInteger(t.reps)&&t.reps>=0&&t.reps<=999&&Number.isFinite(t.loadKg)&&t.loadKg>=0&&t.loadKg<=2000&&(t.rir===null||Number.isInteger(t.rir)&&t.rir>=0&&t.rir<=6))&&
+ r.sets.every(t=>Number.isInteger(t.set)&&t.set>=1&&t.set<=30&&Number.isInteger(t.reps)&&t.reps>=0&&t.reps<=999&&(t.durationSeconds===undefined||(Number.isInteger(t.durationSeconds)&&t.durationSeconds>=0&&t.durationSeconds<=3600))&&Number.isFinite(t.loadKg)&&t.loadKg>=0&&t.loadKg<=2000&&(t.rir===null||Number.isInteger(t.rir)&&t.rir>=0&&t.rir<=6))&&
  new Set(r.sets.map(t=>t.set)).size===r.sets.length)&&new Set(x.exerciseResults.map(r=>r.index)).size===x.exerciseResults.length));
 }
 function validateBackup(value: unknown): BackupDocument {

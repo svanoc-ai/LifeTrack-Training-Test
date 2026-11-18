@@ -8,7 +8,7 @@ export function progressionPoints(history:Execution[],exerciseId:string):Progres
  const rows:ProgressionPoint[]=[];
  for(const session of ordered){
   session.targets.forEach((target,index)=>{
-   if(target.exerciseId!==exerciseId||!target.sets||target.sets<1)return;
+   if(target.exerciseId!==exerciseId||!target.sets||target.sets<1||target.durationSeconds!==undefined)return;
    const result=session.exerciseResults?.find(r=>r.index===index);
    const originals=Array.from({length:target.sets},(_,i)=>result?.sets.find(x=>x.set===i+1));
    const complete=originals.every(x=>x!==undefined&&validated(x));
