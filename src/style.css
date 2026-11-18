@@ -338,3 +338,33 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-help-symbol{font-size:inherit}
 .lt-help-symbol svg{display:block;width:29px;height:29px}
 @media(max-width:390px){.lt-help-section-heading{gap:6px}.lt-help-heading-actions{gap:7px}.lt-help-heading-actions>.secondary-button{padding-inline:10px}.lt-help-trigger{width:28px;height:28px;min-width:28px;flex-basis:28px}}
+
+/* 2-C.4.4.2 — UI-DATE-01 : iOS Safari native date field containment.
+   Only the global calendar date jump is affected. */
+.lt-calendar .lt-calendar-date-jump {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.lt-calendar .lt-calendar-date-jump > input[type="date"].profile-input {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+  padding-inline: 12px;
+}
+.lt-calendar .lt-calendar-date-jump > input[type="date"]::-webkit-date-and-time-value {
+  min-width: 0;
+  max-width: 100%;
+  text-align: center;
+}
