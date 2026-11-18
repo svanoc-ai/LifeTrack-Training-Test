@@ -14,3 +14,8 @@ GitHub > Actions > Tests navigateur LifeTrack Training. Si rouge, télécharger 
 
 ## Local
 `npm install`, `npx playwright install chromium webkit`, `npm run test:e2e`.
+
+
+## 2-D.2.4 — AUTO-04 à AUTO-10
+
+Les scénarios AUTO-04 à AUTO-09 testent le **moteur réel de recommandations dans un navigateur** avec des séances fictives injectées en mémoire, sans écrire dans IndexedDB. Ce sont des tests de logique exécutés via Playwright, et non des parcours complets de séance. AUTO-10 vérifie la saisie du repos dans l’interface. Les tests existants AUTO-01 à AUTO-03 sont conservés. Deux moteurs (Chromium et WebKit) sont configurés.
