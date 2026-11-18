@@ -303,3 +303,10 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-propagation-check input{flex:none;accent-color:#36d7c6;margin-top:3px}
 .lt-propagation-panel .profile-actions{display:flex;flex-wrap:wrap;gap:8px}
 .lt-propagation-panel .profile-actions button{max-width:100%;white-space:normal}
+
+/* 2-C.4.2 — pictogrammes strictement alignés sur la maquette validée */
+.lt-free-week-actions .secondary-button{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;padding:12px 14px}
+.lt-duplicate-label{min-width:0;font-weight:700}
+.lt-duplicate-icon{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:#203f49;color:#36d7c6;border-radius:10px;padding:8px;flex-shrink:0}
+.lt-duplicate-icon>svg{width:21px;height:21px;flex-shrink:0}
+.lt-program-card-actions button:last-child>svg{width:21px;height:21px}
