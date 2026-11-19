@@ -1,10 +1,10 @@
 
 /* LifeTrack Training — Lot 1-D. Cache isolé par nom et version. */
-const VERSION = '2-F.2.0';
+const VERSION = '2-F.3.1';
 const PREFIX = 'lifetrack-training-pwa-';
 const CACHE = PREFIX + VERSION;
 const ROOT = new URL('./', self.location.href).pathname;
-const CORE = [ROOT, ROOT + 'manifest.webmanifest', ROOT + 'Icons/icon-192.png', ROOT + 'Icons/icon-512.png', ROOT + 'Icons/icon-180.png', ROOT + 'sounds/fin-effort.wav', ROOT + 'sounds/fin-repos.wav'];
+const CORE = [ROOT, ROOT + 'manifest.webmanifest', ROOT + 'Icons/icon-192.png', ROOT + 'Icons/icon-512.png', ROOT + 'Icons/icon-180.png', ROOT + 'sounds/fin-effort.wav', ROOT + 'sounds/fin-repos.wav', ...['model.glb','draco_decoder.js','draco_decoder.wasm','draco_wasm_wrapper.js','provenance.json','UPSTREAM-LICENSE.txt','THREE-LICENSE.txt','NOTICE.txt'].map(name => ROOT + 'anatomy/' + name)];
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
