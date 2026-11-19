@@ -1,0 +1,28 @@
+const assert=require('node:assert/strict');const fs=require('node:fs');const vm=require('node:vm');const ts=require('typescript');const rules=require('../src/anatomyModelRules.json');const {inspectGlb}=require('../scripts/prepare-anatomy.cjs');
+const out={};vm.runInNewContext(ts.transpileModule(fs.readFileSync('src/anatomyModelMapping.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,esModuleInterop:true}}).outputText,{exports:out,require:(id)=>id.includes("Proxy")?require("../src/anatomyProxyRule.json"):rules,RegExp});
+const cases=[['Pectoralis major','pectoraux'],['Latissimus dorsi','dos'],['Deltoid muscle','epaules'],['Brachioradialis','biceps'],['Long head of triceps brachii','triceps'],['Quadratus lumborum','abdominaux'],['Gluteus medius','fessiers'],['Vastus medialis','quadriceps'],['Long head of biceps femoris','ischio_jambiers'],['Adductor magnus','adducteurs'],['Tensor fasciae latae','abducteurs'],['Soleus','mollets']];
+for(const [label,g] of cases)assert.equal(out.modelGroup({kind:'muscle',label}),g);
+for(const label of ['Iliotibial tract','Patellar retinaculum','Serratus anterior','Psoas major','Unknown'])assert.equal(out.modelGroup({kind:'muscle',label}),null);
+assert.equal(out.modelGroup({kind:'bone',label:'Soleus'}),null);assert.equal(out.modelGroup({kind:'muscle',label:'Soleus and trapezius'}),null);
+function fixture(nodes){let j=Buffer.from(JSON.stringify({nodes,meshes:Array.from({length:Math.max(...nodes.map(v=>v.mesh))+1},()=>({primitives:[{}]})),extensionsUsed:['KHR_draco_mesh_compression'],buffers:[{byteLength:0}]}));j=Buffer.concat([j,Buffer.alloc((4-j.length%4)%4,32)]);const b=Buffer.alloc(20);b.write('glTF');b.writeUInt32LE(2,4);b.writeUInt32LE(20+j.length,8);b.writeUInt32LE(j.length,12);b.write('JSON',16);return Buffer.concat([b,j]);}
+const nodes=cases.map(([label],mesh)=>({mesh,extras:{kind:'muscle',label}}));assert.equal(Object.keys(inspectGlb(fixture(nodes)).counts).length,12);assert.throws(()=>inspectGlb(fixture(nodes.slice(1))),/pectoraux/);assert.throws(()=>inspectGlb(Buffer.from('invalid')),/GLB invalide/);
+const tract={kind:'muscle',label:'Iliotibial tract'};
+assert.equal(out.modelGroup(tract),null);
+assert.equal(out.modelGroup(tract,true),'abducteurs');
+assert.equal(out.modelGroup({kind:'bone',label:tract.label},true),null);
+assert.equal(out.modelGroup({kind:'muscle',label:'Gluteus medius'},true),'fessiers');
+assert.equal(out.modelGroup({kind:'muscle',label:'Gluteus minimus'},true),'fessiers');
+const withoutTFL=nodes.filter(n=>n.extras.label!=='Tensor fasciae latae');
+assert.throws(()=>inspectGlb(fixture(withoutTFL)),/abducteurs/);
+const proxyNode={mesh:nodes.length,extras:tract};
+const substitute=inspectGlb(fixture([...withoutTFL,proxyNode]));
+assert.equal(substitute.counts.abducteurs,1);
+assert.equal(substitute.proxyGroups.abducteurs.label,'Bandelette ilio-tibiale');
+assert.equal(Object.values(substitute.counts).every(n=>n>0),true);
+const direct=inspectGlb(fixture([...nodes,proxyNode]));
+assert.equal(direct.counts.abducteurs,1);
+assert.deepEqual(direct.proxyGroups,{});
+assert.equal(direct.unknown,1);
+assert.throws(()=>inspectGlb(fixture([...withoutTFL,{...proxyNode,extras:{...tract,kind:'bone'}}])),/abducteurs/);
+assert.throws(()=>inspectGlb(fixture([...withoutTFL.slice(1),proxyNode])),/pectoraux/);
+console.log('PASS: mapping anatomique, audit GLB synthétique, repère conditionnel et exclusions');
