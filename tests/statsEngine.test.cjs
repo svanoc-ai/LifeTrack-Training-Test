@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');const vm=require('node:vm');const ts=require('typescript');
+const src=fs.readFileSync(require('node:path').join(__dirname,'../src/statsEngine.ts'),'utf8');
+const out={};vm.runInNewContext(ts.transpileModule(src,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports:out,Date,Map,Set,Number,Math,Error});
+const {calculateStats,rollingPeriod}=out;
+const date='2026-11-12T12:00:00';
+const make=(id,status,plannedId=null)=>({id,status,plannedId,startedAt:date,updatedAt:date,endedAt:date,activeMs:600000,pauseMs:120000,targets:[{exerciseId:'std:curl-biceps',sets:3},{exerciseId:'std:marche-tapis'}],exerciseKinds:{0:'musculation',1:'cardio'},exerciseResults:[{index:0,sets:[{set:1,reps:10,loadKg:40,validated:true},{set:2,reps:12,loadKg:40,validated:false},{set:3,reps:8,loadKg:40}]}],cardioResults:[{index:1,durationMinutes:20,distanceKm:1.5,ascentM:30}]});
+const p={start:'2026-11-10',end:'2026-11-16'},now=new Date('2026-11-14T12:00:00');
+const rows=[make('a','completed','p1'),make('b','partial','p2'),make('c','abandoned','p3'),{...make('d','partial','p4'),exerciseResults:[],cardioResults:[]}];
+const plans=[{id:'p1',date:'2026-11-12',status:'completed'},{id:'p2',date:'2026-11-12',status:'partial'},{id:'p3',date:'2026-11-12',status:'abandoned'},{id:'p4',date:'2026-11-12',status:'partial'},{id:'future',date:'2026-11-16',status:'planned'},{id:'cancel',date:'2026-11-12',status:'cancelled'}];
+const s=calculateStats(rows,plans,p,now);
+assert.equal(s.sessions,2);assert.equal(s.partialSessions,1);assert.equal(s.strengthSets,4);assert.equal(s.nominalVolumeKgReps,1440);assert.equal(s.cardioDurationMinutes,40);assert.equal(s.cardioDistanceKm,3);assert.equal(s.cardioAscentM,60);assert.equal(s.elapsedMs,1440000);assert.equal(s.restMs,null);assert.equal(s.plannedDue,4);assert.equal(s.plannedFulfilled,2);assert.equal(s.adherencePct,50);assert.equal(s.activitySessions.Musculation,2);assert.equal(s.activitySessions.Tapis,2);assert.equal(s.byWeek.length,1);
+assert.equal(calculateStats(rows.filter(x=>x.id!=='b'),plans,p,now).sessions,1,'recalculation after deletion');
+assert.equal(calculateStats([{...rows[0],exerciseResults:[]}],[],p,now).strengthSets,0,'recalculation after edit');
+assert.equal(calculateStats([],[],p,now).elapsedMs,null,'unknown duration not zero');
+assert.equal(rollingPeriod(7,new Date('2026-11-14T12:00:00')).start,'2026-11-08');
+assert.throws(()=>calculateStats([],[],{start:'2026-02-30',end:'2026-03-01'},now));
+console.log('PASS: stats engine — 20 assertions');
