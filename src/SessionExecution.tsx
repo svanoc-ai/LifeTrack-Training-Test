@@ -38,13 +38,27 @@ export default function SessionExecution({db,exercises,requestedPlan,onPlanConsu
  const [variantOverrides,setVariantOverrides]=useState<Record<string,MuscleMapping>>({});
  const [celebrating,setCelebrating]=useState(false),[bonusOpen,setBonusOpen]=useState(false),[bonusChoice,setBonusChoice]=useState(''),[bonusName,setBonusName]=useState(''),[bonusKind,setBonusKind]=useState<'musculation'|'cardio'>('musculation'),[bonusMuscles,setBonusMuscles]=useState(''),[bonusEquipment,setBonusEquipment]=useState(''),[bonusSets,setBonusSets]=useState('3'),[bonusReps,setBonusReps]=useState('12'),[bonusLoad,setBonusLoad]=useState('0'),[bonusRest,setBonusRest]=useState('90'),[bonusTimed,setBonusTimed]=useState(false),[bonusSeconds,setBonusSeconds]=useState('30'),[bonusDuration,setBonusDuration]=useState('10'),[bonusDistance,setBonusDistance]=useState(''),[bonusError,setBonusError]=useState('');
  const audioRef=useRef<AudioContext|null>(null);
- const soundRef=useRef<{effort:HTMLAudioElement;rest:HTMLAudioElement}|null>(null);
+ const soundBuffers=useRef<Partial<Record<'effort'|'rest',AudioBuffer>>>({});
+ const primeSounds=()=>{
+  try{
+   const ctx=audioRef.current??new AudioContext();audioRef.current=ctx;
+   void ctx.resume().catch(()=>{});
+   (['effort','rest'] as const).forEach(kind=>{
+    if(soundBuffers.current[kind])return;
+    void fetch(`${import.meta.env.BASE_URL}sounds/fin-${kind==='effort'?'effort':'repos'}.wav`,{cache:'no-store'})
+     .then(r=>{if(!r.ok)throw Error('Audio unavailable');return r.arrayBuffer()})
+     .then(data=>ctx.decodeAudioData(data)).then(buffer=>{soundBuffers.current[kind]=buffer}).catch(()=>{});
+   });
+  }catch{/* Sound is optional */}
+ };
  const playSignal=(kind:'effort'|'rest')=>{
   try{
-   if(!soundRef.current){soundRef.current={effort:new Audio(`${import.meta.env.BASE_URL}sounds/fin-effort.wav`),rest:new Audio(`${import.meta.env.BASE_URL}sounds/fin-repos.wav`)}};
-   const sound=soundRef.current[kind];sound.pause();sound.currentTime=0;
-   void sound.play().catch(()=>{/* iOS may block playback after background suspension */});
-  }catch{/* Sound is optional; visual timing remains available. */}
+   const ctx=audioRef.current;
+   const buffer=soundBuffers.current[kind];
+   if(ctx&&buffer){void ctx.resume().then(()=>{const source=ctx.createBufferSource();source.buffer=buffer;source.connect(ctx.destination);source.start()}).catch(()=>{});return}
+   const sound=new Audio(`${import.meta.env.BASE_URL}sounds/fin-${kind==='effort'?'effort':'repos'}.wav`);
+   void sound.play().catch(()=>{});
+  }catch{/* Visual timing remains available */}
  };
  const lastRestEnd=useRef<string|null>(null);
  const lastTimedEnd=useRef<string|null>(null);
@@ -57,6 +71,7 @@ export default function SessionExecution({db,exercises,requestedPlan,onPlanConsu
  // Schedule the whole 3-2-1-GO sequence on the audio clock while a user gesture is active.
  // iOS may suspend AudioContext between interactions; keep the visual countdown independent.
  const beginCountdown=()=>{
+  primeSounds();
   setCountdown(3);
   try{
    const ctx=audioRef.current??new AudioContext();audioRef.current=ctx;
