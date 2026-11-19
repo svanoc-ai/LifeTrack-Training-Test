@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');const vm=require('node:vm');const ts=require('typescript');
+const load=(name,imports={})=>{const exports={};const js=ts.transpileModule(fs.readFileSync('src/'+name,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;vm.runInNewContext(js,{exports,require:id=>imports[id],Object,Array,Set,Map,Date,Number,Error,Math,String});return exports};
+const reg=load('muscleRegistry.ts');const mod=load('anatomy3d.ts',{'./muscleRegistry':reg});
+const anatomy={deltoid_anterior:4,biceps_brachii:2,rectus_abdominis:0};
+const payload=mod.anatomyPayload({anatomy,classifiedSets:5,unknownSets:2});
+assert.equal(payload.classifiedSets,5);assert.equal(payload.unknownSets,2);
+assert.equal(payload.maxWeightedSets,4);
+assert.equal(payload.muscles.find(x=>x.id==='deltoid_anterior').intensity,1);
+assert.equal(payload.muscles.find(x=>x.id==='biceps_brachii').intensity,.5);
+assert.equal(payload.muscles.find(x=>x.id==='rectus_abdominis').hasData,false);
+assert.equal(payload.muscles.length,Object.values(reg.MUSCLE_GROUPS).flat().length);
+assert.equal(mod.anatomyPayload({anatomy:{},classifiedSets:0,unknownSets:3}).muscles.every(x=>x.intensity===0),true);
+const audit=mod.auditMeshBindings([{muscleId:'biceps_brachii',meshNames:['biceps_L','biceps_R']},{muscleId:'latissimus',meshNames:['missing']}],['biceps_L','biceps_R']);
+assert.equal(audit.coveredMuscles,1);assert.equal(audit.missingMeshes[0],'missing');assert.ok(audit.unmappedMuscles.includes('latissimus'));
+console.log('PASS: 2-F.0 anatomy adapter — 10 assertions');
