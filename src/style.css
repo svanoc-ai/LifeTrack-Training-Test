@@ -556,3 +556,11 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-anatomy-controls span{min-width:60px;text-align:center;font-size:14px}
 .lt-anatomy-prototype select{width:100%;min-width:0;font-size:16px}
 .lt-anatomy-selection{min-height:44px}
+
+/* 2-F.2 – statistics overlay */
+.lt-anatomy-controls button[aria-pressed="true"]{border-color:#29e9cc;color:#29e9cc;font-weight:700}
+.lt-anatomy-legend,.lt-anatomy-details{display:grid;gap:8px;min-width:0}
+.lt-anatomy-bands{display:flex;gap:8px 12px;flex-wrap:wrap}
+.lt-anatomy-bands span{display:inline-flex;align-items:center;gap:5px;font-size:12px}
+.lt-anatomy-bands i{width:14px;height:14px;border-radius:4px;flex-shrink:0}
+.lt-anatomy-details{border:1px solid rgba(130,160,170,.3);border-radius:12px;padding:12px}
