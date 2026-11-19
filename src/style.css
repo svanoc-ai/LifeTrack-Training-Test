@@ -564,3 +564,6 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-anatomy-bands span{display:inline-flex;align-items:center;gap:5px;font-size:12px}
 .lt-anatomy-bands i{width:14px;height:14px;border-radius:4px;flex-shrink:0}
 .lt-anatomy-details{border:1px solid rgba(130,160,170,.3);border-radius:12px;padding:12px}
+
+.lt-anatomy-stage canvas.lt-anatomy-real-canvas{position:absolute;inset:0;pointer-events:none}
+.lt-anatomy-stage:not([data-model-status="ready"]) .lt-anatomy-real-canvas{visibility:hidden}

@@ -1,0 +1,14 @@
+[
+ ["pectoraux", "\\bpectoralis major\\b"],
+ ["dos", "latissimus dorsi|rhomboid|trapezius|teres major|iliocostalis|longissimus|\\bspinalis\\b|erector spinae"],
+ ["epaules", "\\bdeltoid\\b"],
+ ["biceps", "biceps brachii|\\bbrachialis\\b|brachioradialis"],
+ ["triceps", "triceps brachii"],
+ ["abdominaux", "rectus abdominis|transversus abdominis|abdominal oblique|oblique.*abdom|quadratus lumborum"],
+ ["fessiers", "gluteus (maximus|medius|minimus)"],
+ ["quadriceps", "rectus femoris|vastus (medialis|lateralis|intermedius)"],
+ ["ischio_jambiers", "biceps femoris|semitendinosus|semimembranosus"],
+ ["adducteurs", "adductor (magnus|longus|brevis)|\\bgracilis\\b"],
+ ["abducteurs", "tensor fasciae? latae"],
+ ["mollets", "gastrocnemius|\\bsoleus\\b"]
+]
