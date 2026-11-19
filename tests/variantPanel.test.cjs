@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const src=fs.readFileSync('src/SessionExecution.tsx','utf8');
+const css=fs.readFileSync('src/style.css','utf8');
+assert.equal((src.match(/className="lt-variant-close"/g)||[]).length,2,'close action exists for templates and history');
+assert.equal((src.match(/onClick=\{\(\)=>setVariantPanelOpen\(false\)\}/g)||[]).length,2,'both close actions hide panel');
+assert.equal((src.match(/choice==='template:'\+t.id&&chosenTemplate&&variantPanelOpen/g)||[]).length,1,'template panel is inline');
+assert.equal((src.match(/choice==='history:'\+h.id&&chosenTemplate&&variantPanelOpen/g)||[]).length,1,'history panel is inline');
+assert.match(css,/\.lt-variant-close \{[^}]*width: 26px; height: 26px;[^}]*color: #36d7c6/,'smaller turquoise close icon');
+console.log('PASS: 5 variant panel regression checks');
