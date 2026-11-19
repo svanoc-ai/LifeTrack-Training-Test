@@ -483,3 +483,13 @@ button:disabled{opacity:.55;cursor:not-allowed}
 
 /* Lot 2-D.2.5.1 : history corrections and recommendations */
 .lt-history-management{margin:12px 0 18px}.lt-history-advice{margin:12px 0;padding:14px;border:1px solid #36d7c6;border-radius:12px;background:#132a35}.lt-history-advice strong{color:#36d7c6}.lt-history-advice p{margin:8px 0}.lt-history-advice small{color:#adc0cb}.lt-history-editor{border:1px solid #36d7c6;border-radius:16px;padding:16px;margin:16px 0;background:#102333}.lt-history-editor-grid,.lt-history-editor-set{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:10px 0}.lt-history-editor-set{padding:12px;border:1px solid #345265;border-radius:10px}.lt-history-editor-set>strong{grid-column:1/-1}.lt-history-editor-exercise{margin:16px 0}.lt-history-editor-check{display:flex;align-items:center;gap:8px}.lt-history-editor-actions,.lt-history-editor-danger{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}.lt-history-editor-danger{border-top:1px solid #456;padding-top:16px}.lt-history-editor-danger p{width:100%;color:#ffb5a8}.lt-history-editor input,.lt-history-editor select,.lt-history-editor textarea{max-width:100%;min-width:0;box-sizing:border-box}.lt-history-editor label{min-width:0}
+
+/* 2-D.2.5.2 — commandes distinctes et confirmation explicite */
+.lt-history-management{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.lt-history-management button{flex:1 1 170px;min-width:0}
+.lt-delete-trigger,.lt-delete-confirm{border:1px solid #e59a8e;background:#432b34;color:#ffe1da;border-radius:12px;padding:12px 16px;font:inherit;font-weight:650;cursor:pointer}
+.lt-delete-confirm{background:#a33f3b;border-color:#e59a8e;color:#fff}
+.lt-delete-trigger:disabled,.lt-delete-confirm:disabled{opacity:.55;cursor:not-allowed}
+.lt-history-delete{border-color:#e59a8e}
+.lt-history-delete [role="alert"]{color:#ffb5a8}
+.lt-history-editor-exercise>strong{display:block;margin-bottom:12px;color:#36d7c6}
