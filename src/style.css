@@ -543,3 +543,16 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-variant-heading h3 { margin: 0; }
 .lt-variant-close { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 26px; width: 26px; height: 26px; padding: 0; border: 1px solid #27cfc0; border-radius: 7px; background: transparent; color: #36d7c6; font-size: 17px; line-height: 1; cursor: pointer; }
 .lt-variant-close:focus-visible { outline: 3px solid #27cfc0; outline-offset: 2px; }
+
+/* 2-F.1 — independent 3D test view */
+.lt-anatomy-prototype{display:grid;gap:10px;min-width:0}
+.lt-anatomy-stage{position:relative;border:1px solid rgba(130,160,170,.30);border-radius:16px;overflow:hidden;background:radial-gradient(ellipse at center,#243846,#101c28)}
+.lt-anatomy-stage canvas{display:block;width:100%;height:clamp(320px,51vh,500px);touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+.lt-anatomy-stage canvas:active{cursor:grabbing}
+.lt-anatomy-stage>p{padding:12px;color:#fff}
+.lt-anatomy-controls{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.lt-anatomy-controls button{flex:1 1 auto;min-width:44px;min-height:44px;border:1px solid rgba(130,160,170,.4);border-radius:10px;background:transparent;color:inherit;font:inherit;font-size:14px;padding:7px 10px}
+.lt-anatomy-controls button:disabled{opacity:.4}
+.lt-anatomy-controls span{min-width:60px;text-align:center;font-size:14px}
+.lt-anatomy-prototype select{width:100%;min-width:0;font-size:16px}
+.lt-anatomy-selection{min-height:44px}
