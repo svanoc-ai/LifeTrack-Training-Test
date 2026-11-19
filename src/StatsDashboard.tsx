@@ -1,0 +1,38 @@
+import {useCallback,useEffect,useMemo,useState} from 'react';
+import type {Execution} from './SessionExecution';
+import {calculateStats,rollingPeriod,type PlannedStatsRecord,type StatsPeriod} from './statsEngine';
+
+type Range='7'|'28'|'56'|'84'|'custom';
+const fmt=(n:number)=>new Intl.NumberFormat('fr-FR',{maximumFractionDigits:1}).format(n);
+const dateLocal=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
+const valid=(s:string)=>/^\d{4}-\d{2}-\d{2}$/.test(s)&&!Number.isNaN(Date.parse(s))&&new Date(s+'T12:00:00Z').toISOString().slice(0,10)===s;
+function all<T>(db:IDBDatabase,store:string):Promise<T[]>{return new Promise((resolve,reject)=>{try{const tx=db.transaction(store,'readonly');const req=tx.objectStore(store).getAll();req.onsuccess=()=>resolve(req.result as T[]);req.onerror=()=>reject(req.error);tx.onerror=()=>reject(tx.error);}catch(e){reject(e);}});}
+const duration=(ms:number|null)=>ms===null?'—':`${Math.floor(ms/3600000)>0?`${Math.floor(ms/3600000)} h `:''}${Math.round(ms%3600000/60000)} min`;
+export default function StatsDashboard({db}:{db:IDBDatabase|null}){
+ const [range,setRange]=useState<Range>('28');const [start,setStart]=useState(rollingPeriod(28).start);const [end,setEnd]=useState(dateLocal());
+ const [executions,setExecutions]=useState<Execution[]>([]);const [planned,setPlanned]=useState<PlannedStatsRecord[]>([]);
+ const [busy,setBusy]=useState(false);const [error,setError]=useState('');const [loaded,setLoaded]=useState(false);
+ const refresh=useCallback(async()=>{if(!db)return;setBusy(true);setError('');try{const [sessions,plans]=await Promise.all([all<Execution>(db,'executions'),all<PlannedStatsRecord>(db,'plannedWorkouts')]);setExecutions(sessions);setPlanned(plans);setLoaded(true);}catch(e){setError('Lecture des statistiques impossible : '+String(e));}finally{setBusy(false);}},[db]);
+ useEffect(()=>{void refresh();},[refresh]);
+ useEffect(()=>{if(!db)return;const onFocus=()=>{void refresh();};const onVisibility=()=>{if(document.visibilityState==='visible')void refresh();};window.addEventListener('focus',onFocus);document.addEventListener('visibilitychange',onVisibility);return()=>{window.removeEventListener('focus',onFocus);document.removeEventListener('visibilitychange',onVisibility);};},[db,refresh]);
+ const period:StatsPeriod=useMemo(()=>range==='custom'?{start,end}:rollingPeriod(Number(range) as 7|28|56|84),[range,start,end]);
+ const periodValid=valid(period.start)&&valid(period.end)&&period.start<=period.end;
+ const stats=useMemo(()=>{if(!periodValid||!loaded)return null;try{return calculateStats(executions,planned,period);}catch{return null;}},[executions,planned,period,periodValid,loaded]);
+ const activities=stats?Object.entries(stats.activitySessions).filter(([,n])=>n>0):[];
+ const maxWeek=Math.max(1,...(stats?.byWeek.map(w=>w.sessions)||[]));
+ return <section className="lt-stats-dashboard">
+  <div className="section-head"><div><p className="kicker">ANALYSES · 2-E.2.2</p><h1>Statistiques</h1><p className="muted">Tes données réelles, calculées localement.</p></div></div>
+  <div className="lt-stats-tabs" role="tablist" aria-label="Vues statistiques"><button className="selected" role="tab" aria-selected="true">Synthèse</button><button disabled role="tab" aria-selected="false">Muscles · bientôt</button><button disabled role="tab" aria-selected="false">Progression · bientôt</button></div>
+  <div className="panel lt-stats-filter"><label className="field-label" htmlFor="lt-stats-range">Période</label><select id="lt-stats-range" className="profile-input" value={range} onChange={e=>setRange(e.target.value as Range)}><option value="7">7 jours</option><option value="28">4 semaines</option><option value="56">8 semaines</option><option value="84">12 semaines</option><option value="custom">Personnalisée</option></select>{range==='custom'&&<div className="lt-stats-dates"><label>Du<input className="profile-input" type="date" value={start} onChange={e=>setStart(e.target.value)}/></label><label>Au<input className="profile-input" type="date" value={end} onChange={e=>setEnd(e.target.value)}/></label></div>}<p className="muted small">{period.start} → {period.end}</p><button className="secondary-button" type="button" onClick={()=>void refresh()} disabled={!db||busy}>{busy?'Actualisation…':'Actualiser les données'}</button></div>
+  {error&&<p role="alert" className="storage-error">{error}</p>}
+  {!db&&<div className="panel"><p>Ouverture de la base locale…</p></div>}
+  {!periodValid&&<p role="alert" className="storage-error">La période personnalisée est invalide.</p>}
+  {stats&&<>
+   <div className="metrics lt-stats-metrics"><div className="metric"><span>Séances réalisées</span><strong>{stats.sessions}</strong><small>{stats.partialSessions} partielle(s)</small></div><div className="metric"><span>Séries validées</span><strong>{stats.strengthSets}</strong><small>musculation</small></div><div className="metric"><span>Volume nominal</span><strong>{fmt(stats.nominalVolumeKgReps)}</strong><small>kg × répétitions</small></div><div className="metric"><span>Fréquence</span><strong>{fmt(stats.sessionsPerWeek)}</strong><small>séances / semaine</small></div><div className="metric"><span>Assiduité</span><strong>{stats.adherencePct===null?'—':`${fmt(stats.adherencePct)} %`}</strong><small>{stats.plannedFulfilled} / {stats.plannedDue} planifiées échues</small></div><div className="metric"><span>Durée enregistrée</span><strong>{duration(stats.elapsedMs)}</strong><small>{stats.durationsRecorded} séance(s) avec durée</small></div></div>
+   <div className="panel"><h2>Temps et récupération</h2><div className="lt-stats-facts"><div>Actif enregistré <strong>{duration(stats.recordedActiveMs)}</strong></div><div>Pauses enregistrées <strong>{duration(stats.recordedPauseMs)}</strong></div><div>Repos isolé <strong>Non disponible</strong></div><div>Maintien isométrique <strong>{fmt(stats.isometricSeconds)} s</strong></div></div><p className="muted small">Les durées sont partielles si certaines séances n'ont pas de mesure. Le temps de repos n'est pas déduit artificiellement.</p></div>
+   <div className="panel"><h2>Séances par semaine</h2>{stats.byWeek.length?<div className="lt-stats-chart" role="img" aria-label="Nombre de séances réalisées par semaine">{stats.byWeek.map(w=><div className="lt-stats-bar-col" key={w.week}><strong>{w.sessions}</strong><div className="lt-stats-bar" style={{height:`${Math.max(8,w.sessions/maxWeek*100)}%`}}/><small>{w.week.slice(5)}</small></div>)}</div>:<p className="muted">Aucune séance enregistrée sur cette période.</p>}</div>
+   <div className="panel"><h2>Répartition des activités</h2>{activities.length?<div className="lt-stats-activity">{activities.map(([name,n])=><div key={name}><span>{name}</span><strong>{n} séance(s)</strong><small>{stats.activityMinutes[name as keyof typeof stats.activityMinutes]>0?`${fmt(stats.activityMinutes[name as keyof typeof stats.activityMinutes])} min de cardio`:''}</small></div>)}</div>:<p className="muted">Aucune activité enregistrée.</p>}</div>
+   <div className="panel"><h2>Cardio réalisé</h2><div className="lt-stats-facts"><div>Durée <strong>{stats.cardioDurationMinutes===null?'—':`${fmt(stats.cardioDurationMinutes)} min`}</strong></div><div>Distance <strong>{stats.cardioDistanceKm===null?'—':`${fmt(stats.cardioDistanceKm)} km`}</strong></div><div>Dénivelé <strong>{stats.cardioAscentM===null?'—':`${fmt(stats.cardioAscentM)} m`}</strong></div></div><p className="muted small">Mesures renseignées uniquement. Les résistances élastiques sont nominales et ne représentent pas une force mécanique mesurée.</p></div>
+  </>}
+ </section>;
+}
