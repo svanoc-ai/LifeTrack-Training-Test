@@ -5,15 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "node scripts/check-version.cjs --sync && tsc -b && vite build && node scripts/check-version.cjs --dist",
+    "build": "node scripts/check-version.cjs --sync && npm run prepare:anatomy && tsc -b && vite build && node scripts/check-version.cjs --dist",
     "preview": "vite preview --host 0.0.0.0",
     "typecheck": "tsc -b",
-    "test": "node tests/progression.test.cjs && node tests/statsEngine.test.cjs && node tests/muscleRegistry.test.cjs && node tests/muscleStats.test.cjs && node tests/progressionAnalysis.test.cjs && node tests/statsConsolidation.test.cjs && node tests/variantPanel.test.cjs && node tests/anatomy3d.test.cjs && node tests/anatomyPrototype.test.cjs && node tests/versionSync.test.cjs && node tests/anatomyGroupVolume.test.cjs",
-    "test:e2e": "playwright test"
+    "test": "node tests/progression.test.cjs && node tests/statsEngine.test.cjs && node tests/muscleRegistry.test.cjs && node tests/muscleStats.test.cjs && node tests/progressionAnalysis.test.cjs && node tests/statsConsolidation.test.cjs && node tests/variantPanel.test.cjs && node tests/anatomy3d.test.cjs && node tests/anatomyPrototype.test.cjs && node tests/versionSync.test.cjs && node tests/anatomyGroupVolume.test.cjs && node tests/anatomyRealMapping.test.cjs",
+    "test:e2e": "playwright test",
+    "prepare:anatomy": "node scripts/prepare-anatomy.cjs"
   },
   "dependencies": {
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "three": "0.180.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.0",
@@ -22,6 +24,7 @@
     "typescript": "~5.8.3",
     "vite": "^6.3.5",
     "@types/node": "^22.15.0",
-    "@playwright/test": "^1.58.0"
+    "@playwright/test": "^1.58.0",
+    "@types/three": "0.180.0"
   }
 }
