@@ -516,3 +516,13 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-variant-exercise>.lt-muscle-editor{width:100%;margin:4px 0 12px;min-width:0;max-width:100%;box-sizing:border-box}
 
 .lt-muscle-editor-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.lt-muscle-editor-heading h4{margin:0}.lt-muscle-close{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid var(--border,#526b76);border-radius:10px;background:transparent;color:inherit;font-size:26px;line-height:1;cursor:pointer}.lt-muscle-close:disabled{opacity:.5}
+
+/* 2-E.3.2 — Keep touch targets; only shrink select labels */
+.lt-muscle-row select.profile-input{font-size:13px!important;padding-left:8px;padding-right:18px}
+.lt-program-variant{display:flex;flex-direction:column;gap:8px;margin:12px 0;max-width:100%}
+.lt-program-variant .lt-muscle-editor{width:100%}
+.lt-muscle-stats-row{padding:12px 0;border-bottom:1px solid rgba(130,160,170,.25)}
+.lt-muscle-stats-row summary{display:flex;justify-content:space-between;gap:8px;cursor:pointer;text-transform:capitalize}
+.lt-muscle-stats-track{height:9px;background:rgba(130,160,170,.2);border-radius:9px;overflow:hidden;margin:10px 0}
+.lt-muscle-stats-track>div{height:100%;background:#18b5b4;border-radius:9px}
+.lt-muscle-anatomy{display:flex;justify-content:space-between;gap:8px;padding:5px 0;font-size:.9rem}
