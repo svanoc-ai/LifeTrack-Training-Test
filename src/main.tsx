@@ -89,6 +89,7 @@ function validExercise(x: unknown): x is Exercise {
 // Lot 2-B.2 — Modèles séparés des séances, programmes et affectations datées.
 // Les objectifs sont des prescriptions, jamais des performances réalisées.
 type WorkoutTarget = {
+  executionMode?:'repetitions'|'maintien'|'effort-chronometre';
   exerciseId: string; order: number; sets?: number; reps?: number;
   loadKg?: number; restSeconds?: number; rir?: number;
   durationSeconds?: number; durationMinutes?: number; distanceKm?: number; supersetId?: string; blockRestBetweenExercisesSeconds?:number;blockRestBetweenRoundsSeconds?:number;
@@ -114,7 +115,7 @@ function validTarget(x: unknown): x is WorkoutTarget {
   if (!x || typeof x !== 'object' || Array.isArray(x)) return false;
   const t = x as WorkoutTarget;
   const numberField = (v: unknown, max: number) => v === undefined || (typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= max);
-  return typeof t.exerciseId === 'string' && t.exerciseId.length > 0 && t.exerciseId.length <= 128 &&
+  return (t.executionMode===undefined||['repetitions','maintien','effort-chronometre'].includes(t.executionMode)) && typeof t.exerciseId === 'string' && t.exerciseId.length > 0 && t.exerciseId.length <= 128 &&
     Number.isInteger(t.order) && t.order >= 0 && t.order <= 200 &&
     numberField(t.sets, 100) && numberField(t.reps, 1000) && numberField(t.loadKg, 10000) &&
     numberField(t.restSeconds, 3600) && numberField(t.rir, 20) &&

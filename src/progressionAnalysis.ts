@@ -41,7 +41,7 @@ export function compareProgression(a:ProgressionRecord,b:ProgressionRecord):Comp
  if(!same(a.loadKg,b.loadKg)||a.loadKg===null)reasons.push('Résistance nominale différente ou inconnue');
  if(a.plannedSets!==b.plannedSets)reasons.push('Nombre de séries différent');
  if(a.status==='partial'||b.status==='partial'||!a.complete||!b.complete)reasons.push('Séance ou exercice partiel');
- if((a.minimumDurationSeconds===null)!==(b.minimumDurationSeconds===null))reasons.push('Protocoles de répétitions et de durée différents');
+ if((a.minimumDurationSeconds===null)!==(b.minimumDurationSeconds===null)||(a.minimumDurationSeconds!==null&&b.minimumDurationSeconds!==null&&(a.minimumReps!==null&&a.minimumReps>0)!==(b.minimumReps!==null&&b.minimumReps>0)))reasons.push('Protocoles de réalisation différents');
  return {reliability:reasons.length?'qualified':'direct',reasons};
 }
 /** Never applies a change automatically. An unrecorded RIR/quality requires review. */
