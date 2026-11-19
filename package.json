@@ -8,7 +8,7 @@
     "build": "node scripts/check-version.cjs --sync && tsc -b && vite build && node scripts/check-version.cjs --dist",
     "preview": "vite preview --host 0.0.0.0",
     "typecheck": "tsc -b",
-    "test": "node tests/progression.test.cjs && node tests/statsEngine.test.cjs && node tests/muscleRegistry.test.cjs && node tests/muscleStats.test.cjs && node tests/progressionAnalysis.test.cjs && node tests/statsConsolidation.test.cjs && node tests/variantPanel.test.cjs && node tests/anatomy3d.test.cjs && node tests/anatomyPrototype.test.cjs && node tests/versionSync.test.cjs",
+    "test": "node tests/progression.test.cjs && node tests/statsEngine.test.cjs && node tests/muscleRegistry.test.cjs && node tests/muscleStats.test.cjs && node tests/progressionAnalysis.test.cjs && node tests/statsConsolidation.test.cjs && node tests/variantPanel.test.cjs && node tests/anatomy3d.test.cjs && node tests/anatomyPrototype.test.cjs && node tests/versionSync.test.cjs && node tests/anatomyGroupVolume.test.cjs",
     "test:e2e": "playwright test"
   },
   "dependencies": {
