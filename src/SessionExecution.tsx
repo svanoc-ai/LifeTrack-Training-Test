@@ -38,6 +38,16 @@ export default function SessionExecution({db,exercises,requestedPlan,onPlanConsu
  const [variantOverrides,setVariantOverrides]=useState<Record<string,MuscleMapping>>({});
  const [celebrating,setCelebrating]=useState(false),[bonusOpen,setBonusOpen]=useState(false),[bonusChoice,setBonusChoice]=useState(''),[bonusName,setBonusName]=useState(''),[bonusKind,setBonusKind]=useState<'musculation'|'cardio'>('musculation'),[bonusMuscles,setBonusMuscles]=useState(''),[bonusEquipment,setBonusEquipment]=useState(''),[bonusSets,setBonusSets]=useState('3'),[bonusReps,setBonusReps]=useState('12'),[bonusLoad,setBonusLoad]=useState('0'),[bonusRest,setBonusRest]=useState('90'),[bonusTimed,setBonusTimed]=useState(false),[bonusSeconds,setBonusSeconds]=useState('30'),[bonusDuration,setBonusDuration]=useState('10'),[bonusDistance,setBonusDistance]=useState(''),[bonusError,setBonusError]=useState('');
  const audioRef=useRef<AudioContext|null>(null);
+ const soundRef=useRef<{effort:HTMLAudioElement;rest:HTMLAudioElement}|null>(null);
+ const playSignal=(kind:'effort'|'rest')=>{
+  try{
+   if(!soundRef.current){soundRef.current={effort:new Audio(`${import.meta.env.BASE_URL}sounds/fin-effort.wav`),rest:new Audio(`${import.meta.env.BASE_URL}sounds/fin-repos.wav`)}};
+   const sound=soundRef.current[kind];sound.pause();sound.currentTime=0;
+   void sound.play().catch(()=>{/* iOS may block playback after background suspension */});
+  }catch{/* Sound is optional; visual timing remains available. */}
+ };
+ const lastRestEnd=useRef<string|null>(null);
+ const lastTimedEnd=useRef<string|null>(null);
  const celebrate=()=>{
   setCountdown(null);setCelebrating(true);
   try{const ctx=audioRef.current??new AudioContext();audioRef.current=ctx;
@@ -104,7 +114,7 @@ export default function SessionExecution({db,exercises,requestedPlan,onPlanConsu
  const restActive=!!session?.restUntil&&restRemaining>0&&!allExercisesDone(session);
  const stopRest=async()=>{if(!session||busy||assessment)return;if(await persist({...snapshot(session),restUntil:null})){beginCountdown()}};
  const adjustRest=async(delta:number)=>{if(!session||busy||!restActive)return;await persist({...snapshot(session),restUntil:new Date(Math.max(Date.now(),Date.parse(session.restUntil!)+delta*1000)).toISOString()})};
- useEffect(()=>{if(!session||allExercisesDone(session)||!session.restUntil||restRemaining>0||assessment||session.pendingAssessment||resumePrompt||review||busy||session.status!=='active')return;void persist({...snapshot(session),restUntil:null}).then(ok=>{if(ok)beginCountdown()})},[session?.restUntil,restRemaining,assessment,resumePrompt,review,session?.status,busy]);
+ useEffect(()=>{if(!session||allExercisesDone(session)||!session.restUntil||restRemaining>0||assessment||session.pendingAssessment||resumePrompt||review||busy||session.status!=='active')return;const endKey=`${session.id}:${session.restUntil}`;if(lastRestEnd.current!==endKey){lastRestEnd.current=endKey;playSignal('rest')}void persist({...snapshot(session),restUntil:null}).then(ok=>{if(ok)beginCountdown()})},[session?.restUntil,restRemaining,assessment,resumePrompt,review,session?.status,busy]);
  const shown=session?snapshot(session,clock):null;
  const currentTarget=session?.targets[focusIndex];
  const currentResult=session?.exerciseResults?.find(r=>r.index===focusIndex);
@@ -177,6 +187,7 @@ export default function SessionExecution({db,exercises,requestedPlan,onPlanConsu
  },[timerReady,session?.status,countdown,busy,focusIndex,focusSet,ownTimer?.startedAt]);
  useEffect(()=>{
   if(!timerReady||!session||session.status!=='active'||busy||countdown!==null||!ownTimer?.startedAt||remaining>0)return;
+  const endKey=`${session.id}:${focusIndex}:${focusSet}:${ownTimer.startedAt}`;if(lastTimedEnd.current!==endKey){lastTimedEnd.current=endKey;playSignal('effort')}
   void toggleSet(focusSet,timedGoal);
  },[timerReady,session?.status,countdown,busy,remaining,ownTimer?.startedAt]);
  const changeSetCount=async(delta:number)=>{if(!currentTarget||!session)return;const nextCount=Math.max(1,Math.min(30,actualCount+delta));if(nextCount===actualCount)return;const sets=(currentResult?.sets||[]).filter(r=>r.set<=nextCount);await saveResult({index:focusIndex,sets,quality:undefined,setCount:nextCount})};
