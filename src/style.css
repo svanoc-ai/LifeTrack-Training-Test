@@ -526,3 +526,6 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lt-muscle-stats-track{height:9px;background:rgba(130,160,170,.2);border-radius:9px;overflow:hidden;margin:10px 0}
 .lt-muscle-stats-track>div{height:100%;background:#18b5b4;border-radius:9px}
 .lt-muscle-anatomy{display:flex;justify-content:space-between;gap:8px;padding:5px 0;font-size:.9rem}
+
+/* 2-E.4.3 — Historique Progression lisible sur iPhone */
+.lt-progression-history{display:grid;gap:12px}.lt-progression-history-card{border:1px solid #365368;border-radius:16px;padding:14px;min-width:0}.lt-progression-history-top{display:flex;justify-content:space-between;align-items:start;gap:8px;overflow-wrap:anywhere}.lt-progression-history-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:12px 0}.lt-progression-history-metrics>div{background:#142c39;border-radius:9px;padding:10px 4px;text-align:center;min-width:0}.lt-progression-history-metrics strong{display:block;font-size:1.05rem}.lt-progression-history-metrics small{display:block;color:#a9bdc9;font-size:.72rem}.lt-progression-history-toggle{width:100%;margin-top:8px}.lt-progression-history-detail{margin-top:12px;display:grid;gap:8px}.lt-progression-history-detail>div{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.lt-progression-history-detail strong{text-align:right}
