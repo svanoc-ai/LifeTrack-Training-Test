@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict');const fs=require('node:fs');const vm=require('node:vm');const path=require('node:path');const ts=require('typescript');
+const load=(name,imports={})=>{const exports={};const source=fs.readFileSync(path.join(__dirname,'../src',name),'utf8');const output=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;vm.runInNewContext(output,{exports,require:(name)=>imports[name],Object,Array,Set,Map,Date,Number,Error,Math,String});return exports};
+const registry=load('muscleRegistry.ts');const {calculateMuscleStats}=load('muscleStats.ts',{'./muscleRegistry':registry});
+const military=registry.STANDARD_VARIANTS.find(x=>x.id==='variant:developpe-debout:militaire');
+const snapshot=registry.captureMapping(military,'2026-11-19T12:00:00Z');
+const session={status:'completed',endedAt:'2026-11-19T12:00:00Z',targets:[{exerciseId:military.exerciseId,muscleSnapshot:snapshot},{exerciseId:'std:curl-biceps'}],exerciseResults:[{index:0,sets:[{set:1},{set:2},{set:3,validated:false}]},{index:1,sets:[{set:1}]}]};
+const result=calculateMuscleStats([session],{start:'2026-11-01',end:'2026-11-30'});
+assert.equal(result.classifiedSets,2);assert.equal(result.unknownSets,1);assert.equal(result.groups.epaules.primary,2);assert.equal(result.groups.triceps.secondary,.5);assert.equal(result.groups.dos.secondary,.5);assert.equal(result.groups.epaules.total,2);assert.equal(result.anatomy.deltoid_anterior,2);assert.equal(result.anatomy.deltoid_lateral,2);
+const other=calculateMuscleStats([session],{start:'2026-10-01',end:'2026-10-31'});assert.equal(other.classifiedSets,0);
+console.log('PASS: muscle stats — 9 assertions');
