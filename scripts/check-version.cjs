@@ -1,0 +1,1 @@
+const fs=require('fs');const v=fs.readFileSync('src/version.ts','utf8').match(/APP_VERSION = '([^']+)'/)[1];const sw=fs.readFileSync('public/sw.js','utf8').match(/VERSION = '([^']+)'/)[1];if(v!==sw){console.error('Version mismatch:',v,sw);process.exit(1)}console.log('Version synchronized:',v);
