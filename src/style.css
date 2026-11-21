@@ -567,3 +567,14 @@ button:disabled{opacity:.55;cursor:not-allowed}
 
 .lt-anatomy-stage canvas.lt-anatomy-real-canvas{position:absolute;inset:0;pointer-events:none}
 .lt-anatomy-stage:not([data-model-status="ready"]) .lt-anatomy-real-canvas{visibility:hidden}
+
+/* Lot 12 — catalogue de propositions en lecture seule */
+.lt20-preview-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.lt20-preview-heading h2{margin:3px 0 8px}
+.lt20-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px;margin:16px 0}
+.lt20-filters label{display:block;font-size:.85rem}
+.lt20-filters .profile-input{width:100%;margin-top:6px;min-width:0;box-sizing:border-box}
+.lt20-results{max-height:560px;overflow:auto;overscroll-behavior:contain}
+.lt20-result{padding:13px 0;border-bottom:1px solid rgba(130,150,170,.24);overflow-wrap:anywhere}
+.lt20-result p{margin:5px 0}
+.lt20-result small{opacity:.75}
