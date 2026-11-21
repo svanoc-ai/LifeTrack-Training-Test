@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import {useMemo, useState} from 'react';
 import proposals from './catalogue20-propositions.json';
 
 type Proposal = {candidateId:string;name:string;equipment:string;movementFamily:string;primaryGroups:string;secondaryGroups:string;precaution:string;integrationDecision:string;biomechanicalStatus:string;catalogStatus:string;proposedExerciseId:string};
